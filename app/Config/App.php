@@ -24,8 +24,7 @@ class App extends BaseConfig
      *
      * @var string             
      */
-        //  public $baseURL = 'http://localhost/bdenterprise/bill_management/';
-       public $baseURL = 'http://192.168.1.250:8080/bill_management/';
+       public $baseURL = 'http://13.201.225.238/';
 
     /**
      * --------------------------------------------------------------------------

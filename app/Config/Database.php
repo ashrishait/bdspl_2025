@@ -32,10 +32,10 @@ class Database extends Config
      */
     public $default = [
         'DSN'      => '',
-        'hostname' => 'localhost',
-        'username' => 'root',
-        'password' => '',
-        'database' => 'bdenterprise',
+        'hostname' => '15.207.133.58',
+        'username' => 'bdslp_admin_db',
+        'password' => 'Bd@987#Pass',
+        'database' => 'BdSlpSsn2025_26Db',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
