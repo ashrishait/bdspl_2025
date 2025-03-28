@@ -1,0 +1,232 @@
+CRITICAL - 2025-02-23 10:08:14 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 10:08:30 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 10:08:49 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 15:18:58 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 15:20:19 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 15:21:37 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 15:22:51 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 15:56:10 --> Undefined variable $imageName
+in APPPATH\Controllers\BillRegisterController.php on line 2458.
+ 1 APPPATH\Controllers\BillRegisterController.php(2458): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $imageName', 'APPPATH\\Controllers\\BillRegisterController.php', 2458)
+ 2 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->MasterAction_send()
+ 3 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:05:21 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:06:41 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:08:36 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:11:46 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:11:58 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:12:35 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:14:00 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:15:02 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:15:34 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:17:38 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:18:11 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:32:17 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:33:50 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:34:00 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:35:12 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:35:58 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:37:33 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-23 17:38:06 --> Invalid file: ajax_single_mapping.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('ajax_single_mapping.php')
+ 2 SYSTEMPATH\Common.php(1137): CodeIgniter\View\View->render('ajax_single_mapping', [], true)
+ 3 APPPATH\Controllers\BillRegisterController.php(1642): view('ajax_single_mapping')
+ 4 SYSTEMPATH\CodeIgniter.php(904): App\Controllers\BillRegisterController->ajax_single_mapping()
+ 5 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BillRegisterController))
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
