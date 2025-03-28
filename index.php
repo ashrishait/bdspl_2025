@@ -1,4 +1,9 @@
 <?php
+// Error debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Set the memory limit to -1 so there is no limit.
 ini_set('memory_limit', '-1');
 // Check PHP version.
 $minPhpVersion = '7.4'; // If you update this, don't forget to update `spark`.
