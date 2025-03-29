@@ -32,8 +32,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bill Management</title>
 <!-- base:css -->
-<link rel="stylesheet" href="<?php echo base_url('public/css/style.css');?>">
-<link rel="stylesheet" href="<?php echo base_url('public/css/styles.css');?>">
+<link rel="stylesheet" href="<?php echo base_url('css/style.css');?>">
+<link rel="stylesheet" href="<?php echo base_url('css/styles.css');?>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.4.47/css/materialdesignicons.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
