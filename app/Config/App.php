@@ -24,7 +24,7 @@ class App extends BaseConfig
      *
      * @var string             
      */
-       public $baseURL = 'http://13.201.225.238/';
+       public $baseURL = 'https://app.bdslp.com/';
 
     /**
      * --------------------------------------------------------------------------
