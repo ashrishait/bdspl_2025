@@ -1,9 +1,9 @@
 <?php
 // Error debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
-echo 'Hello World!';
+// echo 'Hello World!';
 // Set the memory limit to -1 so there is no limit.
 ini_set('memory_limit', '-1');
 // Check PHP version.
