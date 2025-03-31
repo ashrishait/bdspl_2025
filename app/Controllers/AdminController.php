@@ -1583,6 +1583,7 @@ public function checkStatus($order_id, $quotation_id, $sub_quotation_id, $compan
 
     // Fetch order products with pagination
     $orderProducts = $orderProductModel->where('Order_Id', $order_id)->paginate(10);
+    print_r($orderProducts);
     if (empty($orderProducts)) {
         return redirect()->to('/error_page')->with('error', 'No products found for this order');
     }
