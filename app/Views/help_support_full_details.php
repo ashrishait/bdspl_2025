@@ -236,7 +236,7 @@
                                                         <input type="hidden" name="action" value="all">
                                                         <div class="col-sm-12 col-md-12" >
                                                          <div class="form-group">
-                                                            <input type="text" name="Recived_Comment" class="form-control" style="padding: 0.875rem 1.375rem" value="<?php echo $row['Recived_Comment'];?>"> 
+                                                            <input type="text" name="Recived_Comment" class="form-control" style="padding: 0.875rem 1.375rem" value=""> 
                                                               </div>
                                                              </div>
                                                         

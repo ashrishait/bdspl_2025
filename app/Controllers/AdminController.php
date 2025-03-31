@@ -874,42 +874,42 @@ class AdminController extends BaseController
     }
 
 
-public function complete_detail_of_help_support($billid)
-{
-    $session = \Config\Services::session();
-    $compeny_id = $session->get("compeny_id");
+    public function complete_detail_of_help_support($billid)
+    {
+        $session = \Config\Services::session();
+        $compeny_id = $session->get("compeny_id");
 
-    // Initialize model
-    $Help_Support_obj = new Help_Support_Reply();
-    
-    // Pagination setup
-    $page = $this->request->getVar('page') ?? 1;
-    $perPage = 20;
-    $startSerial = ($page - 1) * $perPage + 1;
+        // Initialize model
+        $Help_Support_obj = new Help_Support_Reply();
+        
+        // Pagination setup
+        $page = $this->request->getVar('page') ?? 1;
+        $perPage = 20;
+        $startSerial = ($page - 1) * $perPage + 1;
 
-    // Build query with joins
-    $builder = $Help_Support_obj->select('asit_help_support_reply.*, asitek_compeny.name, asitek_party_user.Name, asitek_party_user.GST_No, asit_help_support.Title, asit_help_support.Status')
-        ->join('asitek_compeny', 'asit_help_support_reply.company_id = asitek_compeny.id', 'left')
-        ->join('asitek_party_user', 'asit_help_support_reply.vendor_id = asitek_party_user.id', 'left')
-        ->join('asit_help_support', 'asit_help_support_reply.Help_Id = asit_help_support.Id', 'left')
-        ->where('asit_help_support_reply.Company_Id', $compeny_id)
-        ->where('asit_help_support_reply.Help_Id', $billid)
-        ->orderBy('asit_help_support_reply.Id', 'ASC');
+        // Build query with joins
+        $builder = $Help_Support_obj->select('asit_help_support_reply.*, asitek_compeny.name, asitek_party_user.Name, asitek_party_user.GST_No, asit_help_support.Title, asit_help_support.Status')
+            ->join('asitek_compeny', 'asit_help_support_reply.company_id = asitek_compeny.id', 'left')
+            ->join('asitek_party_user', 'asit_help_support_reply.vendor_id = asitek_party_user.id', 'left')
+            ->join('asit_help_support', 'asit_help_support_reply.Help_Id = asit_help_support.Id', 'left')
+            ->where('asit_help_support_reply.Company_Id', $compeny_id)
+            ->where('asit_help_support_reply.Help_Id', $billid)
+            ->orderBy('asit_help_support_reply.Id', 'ASC');
 
-    // Execute the query with pagination
-    $users = $builder->paginate($perPage, 'default', $page);
+        // Execute the query with pagination
+        $users = $builder->paginate($perPage, 'default', $page);
 
-    // Prepare data for the view
-    $data = [
-        'users' => $users,
-        'pager' => $Help_Support_obj->pager,
-        'startSerial' => $startSerial,
-        'nextPage' => $page + 1,
-        'previousPage' => ($page > 1) ? $page - 1 : null,
-    ];
+        // Prepare data for the view
+        $data = [
+            'users' => $users,
+            'pager' => $Help_Support_obj->pager,
+            'startSerial' => $startSerial,
+            'nextPage' => $page + 1,
+            'previousPage' => ($page > 1) ? $page - 1 : null,
+        ];
 
-    return view("help_support_full_details.php", $data);
-}
+        return view("help_support_full_details.php", $data);
+    }
 
 
 
