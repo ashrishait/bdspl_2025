@@ -1589,8 +1589,9 @@ public function checkStatus($order_id, $quotation_id, $sub_quotation_id, $compan
 
     // Fetch product details and delivery details
     foreach ($orderProducts as &$product) {
-        // Fetch vendor product details
         $vendorProduct = $vendorProductModel->find($product['Product_Id']);
+
+        // Set product details
         if ($vendorProduct) {
             $product['Product_Name'] = $vendorProduct['product_name'];
             $product['image'] = $vendorProduct['image'];
@@ -1603,27 +1604,16 @@ public function checkStatus($order_id, $quotation_id, $sub_quotation_id, $compan
             $product['price'] = 0;
         }
 
-        // Fetch delivery details using corrected field name `Quoate_Id`
-        $deliveryDetails = $orderStatusModel->where([
+        // Fetch all delivery details for this product
+        $product['Delivery_Details'] = $orderStatusModel->where([
             'Order_Id' => $order_id,
             'sub_quote_id' => $sub_quotation_id,
-            'Quoate_Id' => $quotation_id,  // Correct field name from model
+            'Quoate_Id' => $quotation_id,  
             'Product_Id' => $product['Product_Id'],
             'company_id' => $company_id
         ])->findAll();
-
-        $product['Delivered_Quantity'] = 0;
-        $product['Delivered_Date'] = 'N/A';
-
-        if (!empty($deliveryDetails)) {
-            // Sum all delivered quantities
-            $product['Delivered_Quantity'] = array_sum(array_column($deliveryDetails, 'Delivered_quantity'));
-
-            // Concatenate multiple delivered dates
-            $product['Delivered_Date'] = implode(', ', array_column($deliveryDetails, 'delivered_date'));
-        }
-
     }
+
 
     // Prepare data for view
     $data = [

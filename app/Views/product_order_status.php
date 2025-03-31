@@ -68,15 +68,29 @@ $PartyUserModel = new PartyUserModel();
     <tbody>
         <?php if (!empty($orderProducts)) : ?>
             <?php foreach ($orderProducts as $product) : ?>
-                <tr>
-                    <td><?= esc($order_id); ?></td>
-                    <td><?= esc($quotation_id); ?></td>
-                    <td><?= esc($sub_quotation_id); ?></td>
-                    <td><?= esc($product['Product_Id']); ?></td>
-                    <td><?= esc($product['Product_Name']); ?></td>
-                    <td><?= esc($product['Delivered_Quantity']); ?></td>
-                    <td><?= esc($product['Delivered_Date']); ?></td>
-                </tr>
+                <?php if (!empty($product['Delivery_Details'])) : ?>
+                    <?php foreach ($product['Delivery_Details'] as $delivery) : ?>
+                        <tr>
+                            <td><?= esc($order_id); ?></td>
+                            <td><?= esc($quotation_id); ?></td>
+                            <td><?= esc($sub_quotation_id); ?></td>
+                            <td><?= esc($product['Product_Id']); ?></td>
+                            <td><?= esc($product['Product_Name']); ?></td>
+                            <td><?= esc($delivery['Delivered_quantity']); ?></td>
+                            <td><?= esc($delivery['delivered_date']); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <tr>
+                        <td><?= esc($order_id); ?></td>
+                        <td><?= esc($quotation_id); ?></td>
+                        <td><?= esc($sub_quotation_id); ?></td>
+                        <td><?= esc($product['Product_Id']); ?></td>
+                        <td><?= esc($product['Product_Name']); ?></td>
+                        <td>0</td>
+                        <td>N/A</td>
+                    </tr>
+                <?php endif; ?>
             <?php endforeach; ?>
         <?php else : ?>
             <tr>
