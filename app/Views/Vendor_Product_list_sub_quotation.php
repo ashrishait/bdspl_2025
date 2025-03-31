@@ -163,7 +163,7 @@
                              <!-- Product Details Modal -->
                             <!-- Product Details Modal -->
 
-                <div class="modal fade" id="modal-details-<?= $subQuotation['Quote_Id'] . '-' . $subQuotation['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="modal-details-<?= $quotation['id'] . '-' . $subQuotation['id']; ?>" aria-hidden="true">
+                <div class="modal fade" id="modal-details-<?= $subQuotation['Quote_Id'] . '-' . $subQuotation['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="modal-details-<?= $subQuotation['id'] . '-' . $subQuotation['id']; ?>" aria-hidden="true">
                          <div class="modal-dialog modal-lg modal-dialog-centered">
                              <div class="modal-content">
                                  <div class="modal-header bg-primary">
