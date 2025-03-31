@@ -256,7 +256,7 @@ function submitRevision(subQuoteId) {
     formData.append('vendor_id', vendorId);  // Append the vendor_id to the form data
 
     // Perform the fetch request to update the revision message
-    fetch('<?= site_url('/updateRevisionMessage'); ?>', {
+    fetch('<?= site_url('/index.php/updateRevisionMessage'); ?>', {
         method: 'POST',
         body: formData
     })
