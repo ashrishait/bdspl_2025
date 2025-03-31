@@ -1612,10 +1612,17 @@ public function checkStatus($order_id, $quotation_id, $sub_quotation_id, $compan
             'company_id' => $company_id
         ])->findAll();
 
-        // Add delivery details to the product
-        $product['Delivered_Quantity'] = $deliveryDetails ? $deliveryDetails['Delivered_quantity'] : 0;
-        $product['Delivered_Date'] = $deliveryDetails ? $deliveryDetails['delivered_date'] : 'N/A';
-        $product['Product_Id'] = $product['Product_Id']; // Include Product ID in the product details
+        $product['Delivered_Quantity'] = 0;
+        $product['Delivered_Date'] = 'N/A';
+
+        if (!empty($deliveryDetails)) {
+            // Sum all delivered quantities
+            $product['Delivered_Quantity'] = array_sum(array_column($deliveryDetails, 'Delivered_quantity'));
+
+            // Concatenate multiple delivered dates
+            $product['Delivered_Date'] = implode(', ', array_column($deliveryDetails, 'delivered_date'));
+        }
+
     }
 
     // Prepare data for view
