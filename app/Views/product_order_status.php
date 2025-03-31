@@ -66,6 +66,7 @@ $PartyUserModel = new PartyUserModel();
         </tr>
     </thead>
     <tbody>
+        <?php print_r($orderProducts);?>
         <?php if (!empty($orderProducts)) : ?>
             <?php foreach ($orderProducts as $product) : ?>
                 <tr>
