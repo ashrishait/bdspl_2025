@@ -201,7 +201,7 @@
                                                 
 
                                                 <td>
-                                                 <?php if($row['status'] == 'open') { ?>
+                                                 <?php if($row['Status'] == 'open') { ?>
                                                      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#bd-example-modal-lg-Status-<?php echo $row['Id']; ?>" title="Lock Account">
                                                          <span title="Status"><span class="mdi mdi-receipt-clock-outline"></span></span>
                                                      </button>
