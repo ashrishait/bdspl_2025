@@ -232,7 +232,7 @@
                                              </tr>
                                            
 
-                                              <div class="modal fade bs-example-modal-lg" id="bd-example-modal-lg-Status-<?php echo $row['Id']; ?>" tabindex="<?php echo $row['id']; ?>" role="dialog" aria-labelledby="bd-example-modal-lg-del-<?php echo $row['id']; ?>" aria-hidden="true">
+                                              <div class="modal fade bs-example-modal-lg" id="bd-example-modal-lg-Status-<?php echo $row['Id']; ?>" tabindex="<?php echo $row['Id']; ?>" role="dialog" aria-labelledby="bd-example-modal-lg-del-<?php echo $row['Id']; ?>" aria-hidden="true">
                                                         <div class="modal-dialog modal-md modal-dialog-centered">
                                                             <div class="modal-content">
                                                                 <div class="modal-header bg-primary">

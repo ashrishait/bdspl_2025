@@ -829,49 +829,49 @@ class AdminController extends BaseController
 
 
     public function Help_Support_list()  
-{   
-    // Initialize session
-    $session = \Config\Services::session(); 
-    $result = $session->get();    
-    $etm = $result['edn'];
-    $compeny_id = $session->get("compeny_id"); 
-    $Roll_id = $result['Roll_id'];
-    
-    // Initialize model
-    $Help_Support_obj = new Help_Support();
-    
-    // Pagination setup
-    $page = $this->request->getVar('page') ?? 1;
-    $perPage = 20;
-    $startSerial = ($page - 1) * $perPage + 1;
+    {   
+        // Initialize session
+        $session = \Config\Services::session(); 
+        $result = $session->get();    
+        $etm = $result['edn'];
+        $compeny_id = $session->get("compeny_id"); 
+        $Roll_id = $result['Roll_id'];
+        
+        // Initialize model
+        $Help_Support_obj = new Help_Support();
+        
+        // Pagination setup
+        $page = $this->request->getVar('page') ?? 1;
+        $perPage = 20;
+        $startSerial = ($page - 1) * $perPage + 1;
 
-    // Build the query
-    $builder = $Help_Support_obj->select('asit_help_support.*, asitek_compeny.name, asitek_party_user.Name, GST_No')
-        ->join('asitek_compeny', 'asit_help_support.company_id = asitek_compeny.id', 'left')
-        ->join('asitek_party_user', 'asit_help_support.vendor_id = asitek_party_user.id', 'left')
-       
-        ->orderBy('asit_help_support.Id', 'ASC');
+        // Build the query
+        $builder = $Help_Support_obj->select('asit_help_support.*, asitek_compeny.name, asitek_party_user.Name, GST_No')
+            ->join('asitek_compeny', 'asit_help_support.company_id = asitek_compeny.id', 'left')
+            ->join('asitek_party_user', 'asit_help_support.vendor_id = asitek_party_user.id', 'left')
+           
+            ->orderBy('asit_help_support.Id', 'ASC');
 
-    // Add where condition if Roll_id is not 0
-    if ($Roll_id != 0) {
-        $builder->where('asit_help_support.company_id', $compeny_id);
+        // Add where condition if Roll_id is not 0
+        if ($Roll_id != 0) {
+            $builder->where('asit_help_support.company_id', $compeny_id);
+        }
+        
+        // Execute the query with pagination
+        $users = $builder->paginate($perPage); 
+
+        // Pass data to view
+        $data = [
+            'users' => $users,
+            'pager' => $Help_Support_obj->pager,
+            'startSerial' => $startSerial,
+            'nextPage' => $page + 1,
+            'previousPage' => ($page > 1) ? $page - 1 : null,
+        ];   
+
+        // Load the view with data
+        return view('help_support_details', $data);   
     }
-    
-    // Execute the query with pagination
-    $users = $builder->paginate($perPage); 
-
-    // Pass data to view
-    $data = [
-        'users' => $users,
-        'pager' => $Help_Support_obj->pager,
-        'startSerial' => $startSerial,
-        'nextPage' => $page + 1,
-        'previousPage' => ($page > 1) ? $page - 1 : null,
-    ];   
-
-    // Load the view with data
-    return view('help_support_details', $data);   
-}
 
 
 public function complete_detail_of_help_support($billid)
