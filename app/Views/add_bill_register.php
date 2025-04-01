@@ -92,7 +92,7 @@
                                     <div class="col-sm-12 col-md-4">
                                        <div class="form-group">
                                           <label for="billpic" >Bill Date<span style="color:red;">*</span></label>
-                                          <input class="form-control" type="date" name="Bill_DateTime" placeholder="" id="Bill_DateTime" style="padding: 0.375rem 1.375rem" min="2025-03-31" max="<?php echo $today;?>">
+                                          <input class="form-control" type="date" name="Bill_DateTime" placeholder="" id="Bill_DateTime" style="padding: 0.375rem 1.375rem" min="2025-04-01" max="<?php echo $today;?>">
                                        </div>
                                     </div>
                                     <div class="col-sm-12 col-md-4">
