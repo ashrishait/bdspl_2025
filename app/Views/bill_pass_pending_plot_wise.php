@@ -112,7 +112,7 @@
                               <form method="get" action="<?php echo site_url('/bill_pass_pending_plot_wise'); ?>" enctype="multipart/form-data">
                                  <div class="row">
                                     <div class="col-md-4" >
-                                       <input type="date" name="start_date" class="form-control" required style="padding: 0.375rem 1.375rem" value="2024-04-01">
+                                       <input type="date" name="start_date" class="form-control" required style="padding: 0.375rem 1.375rem" value="2025-04-01">
                                     </div>
                                     <div class="col-md-4" >
                                        <input type="date" name="end_date" class="form-control" required style="padding: 0.375rem 1.375rem">
