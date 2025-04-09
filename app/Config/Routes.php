@@ -33,6 +33,9 @@ $routes->set404Override();
  * -------------------------------------------------------------------- 
  */
 
+$routes->get('phpinfo', function () {
+    phpinfo();
+});
 
 
 $routes->get('/email_form', 'Email_controller::index',['filter'=>'authGuard']);
