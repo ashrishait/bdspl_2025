@@ -32,7 +32,7 @@ class Database extends Config
      */
     public $default = [
         'DSN'      => '',
-        'hostname' => '15.207.133.58',
+        'hostname' => 'localhost',
         'username' => 'bdslp_admin_db',
         'password' => 'Bd@987#Pass',
         'database' => 'BdSlpSsn2025_26Db',

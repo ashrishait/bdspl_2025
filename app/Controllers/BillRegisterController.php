@@ -168,11 +168,93 @@ class BillRegisterController extends BaseController
         return view("add-bill-vendor", $data);
     }
 
+    // public function vendor_store_bill_register()
+    // {
+    //     $session = \Config\Services::session();
+    //     $result = $session->get();
+    //     $BillRegister = new BillRegisterModel();
+    //     $validation = \Config\Services::validation();
+    //     $file = $this->request->getFile("E_Image");
+    //     if ($file != "") {
+    //         $validation->setRules([
+    //             "E_Image" =>
+    //                 "uploaded[E_Image]|ext_in[E_Image,jpg,JPG,png,PNG,jpeg,JPEG,pdf]",
+    //         ]);
+    //         if (!$validation->withRequest($this->request)->run()) {
+    //             $data["error"] = $validation->getErrors();
+    //             $this->index();
+    //             return redirect("add-bill-vendor");
+    //         } else {
+    //             $imageName = $file->getRandomName();
+    //             $file->move("public/vendors/PicUpload", $imageName);
+    //         }
+    //     } else {
+    //         $imageName = "";
+    //     }
+
+    //     $uid = $this->db
+    //         ->table("asitek_bill_register")
+    //         ->where("compeny_id", $this->request->getVar("company_id"))
+    //         ->countAllResults();
+    //     $uidno = $uid + 1;
+
+    //     $Gate_Entry_Date = date(
+    //         "Y-m-d",
+    //         strtotime($this->request->getVar("Gate_Entry_Date"))
+    //     );
+    //     $DateTime = date("Y-m-d H:i:s");
+    //     $billduplicacy = $BillRegister->where("Vendor_Id", $this->request->getVar("vendor_id"))->where("Bill_No", $this->request->getVar("Bill_No"))->findAll();
+    //     if(!empty($billduplicacy)){
+    //         $session->setFlashdata(
+    //             "success",
+    //             " <div class='text-red-800' role='alert'> Bill No already added </div>"
+    //         );
+    //         return redirect("add-bill-vendor");
+    //     }
+    //     else{
+    //         $data = [
+    //             "uid" => $uidno,
+    //             "compeny_id" => $this->request->getVar("company_id"),
+    //             "Add_By" => $this->request->getVar("Add_By"),
+    //             "Bill_No" => $this->request->getVar("Bill_No"),
+    //             "Gate_Entry_No" => $this->request->getVar("Gate_Entry_No"),
+    //             "Unit_Id" => $this->request->getVar("Unit_Id"),
+    //             "Vendor_Id" => $this->request->getVar("vendor_id"),
+    //             "Bill_DateTime" => $this->request->getVar("Bill_DateTime"),
+    //             "Gate_Entry_Date" => $this->request->getVar("Gate_Entry_Date"),
+    //             "Bill_Amount" => $this->request->getVar("Bill_Amount"),
+    //             "Remark" => $this->request->getVar("Remark"),
+    //             "Bill_Pic" => $imageName,
+    //             "DateTime" => $DateTime,
+    //             "Department_Id" => $this->request->getVar("Department_Id"),
+    //             "Add_By_Vendor" => 1,
+    //         ];
+    //         $BillRegisterinsert = $BillRegister->insert($data);
+    //         $lastId = $BillRegister->getInsertID();
+    //         $string2 = "REG";
+    //         $Bill_No = $lastId;
+    //         if ($BillRegisterinsert) {
+    //             $session = \Config\Services::session();
+    //             $session->setFlashdata(
+    //                 "success",
+    //                 "<div class='text-green-800' > Form Submition Successful. Bill Id : $uidno </div>"
+    //             );
+    //             return redirect("add-bill-vendor");
+    //         } else {
+    //             $session->setFlashdata(
+    //                 "success",
+    //                 " <div class='text-red-800' role='alert'> Problem in Submition! </div>"
+    //             );
+    //             return redirect("add-bill-vendor");
+    //         }
+    //     }
+    // }
+
     public function vendor_store_bill_register()
     {
         $session = \Config\Services::session();
         $result = $session->get();
-        $BillRegister = new BillRegisterModel();
+        $BillRegister = new BillRegisterModelDraft();
         $validation = \Config\Services::validation();
         $file = $this->request->getFile("E_Image");
         if ($file != "") {
@@ -186,14 +268,14 @@ class BillRegisterController extends BaseController
                 return redirect("add-bill-vendor");
             } else {
                 $imageName = $file->getRandomName();
-                $file->move("public/vendors/PicUpload", $imageName);
+                $file->move("public/vendors/PicUploadDraft", $imageName);
             }
         } else {
             $imageName = "";
         }
 
         $uid = $this->db
-            ->table("asitek_bill_register")
+            ->table("asitek_bill_register_draft")
             ->where("compeny_id", $this->request->getVar("company_id"))
             ->countAllResults();
         $uidno = $uid + 1;
