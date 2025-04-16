@@ -240,7 +240,7 @@
                                     <div class="icon">
                                         <i class="mdi mdi-office-building-marker-outline"></i>
                                     </div>
-                                    <a href="<?php echo base_url('/index.php/all_bill_mapping_list?Satus=1');?>" class="card-box-footer py-2">View More <i class="fa fa-arrow-circle-right"></i></a>
+                                    <a href="<?php echo base_url('/index.php/view_bill_register_vendor_draft');?>" class="card-box-footer py-2">View More <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                             <div class="col-12">
