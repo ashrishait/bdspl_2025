@@ -20,6 +20,8 @@ use App\Models\DepartmentnameModel;
 use CodeIgniter\Controller;
 use App\Models\PageaccessionModel;
 use App\Models\BillShippedModel;
+use App\Models\LiveBillRegisterModel;
+use App\Models\BillRegisterModelDraft;
 use CodeIgniter\Pager\Pager;
 
 class BillRegisterController extends BaseController
