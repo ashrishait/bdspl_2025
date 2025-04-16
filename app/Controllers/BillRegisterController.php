@@ -144,6 +144,74 @@ class BillRegisterController extends BaseController
         return view("view_bill_register", $data);
     }
 
+    public function view_bill_register_vendor_draft()
+    {
+        $session = \Config\Services::session();
+        $result = $session->get();
+        $BillRegister = new BillRegisterModelDraft();
+        $Roll_id = $session->get("Roll_id");
+        $emp_id = $session->get("emp_id");
+        $compeny_id = $session->get("compeny_id");
+        $page = $this->request->getVar('page') ?? 1;
+        $perPage = 100;
+        $startSerial = ($page - 1) * $perPage + 1;
+        //    *************** Start Date Code 
+        if ($session->has('Sesssion_start_Date')) {
+            if(!empty($result['Sesssion_start_Date'])) {
+                $Sesssion_start_Date_New = $result['Sesssion_start_Date']; 
+            } else {
+                $Sesssion_start_Date_New = '2019-05-06';    
+            }
+        }
+        else {
+            $Sesssion_start_Date_New = '2019-05-06';    
+        }
+        if ($session->has('Sesssion_end_Date')) {
+            if(!empty($result['Sesssion_end_Date'])) {
+                $Sesssion_end_Date_New = $result['Sesssion_end_Date']; 
+            } else {
+                $Sesssion_end_Date_New = '9019-05-06';    
+            }
+        }
+        else {
+            $Sesssion_end_Date_New = '9019-05-06';    
+        }
+        $date_format = '%Y-%m-%d';  
+
+        //     ***************End  Date Code
+        if ($Roll_id == 1) {
+            $users = $BillRegister ->select("asitek_bill_register_draft.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register_draft.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register_draft.compeny_id', $compeny_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')")->orderBy('asitek_bill_register_draft.id', 'desc')->paginate($perPage);
+
+        } else {
+            $users = $BillRegister ->select("asitek_bill_register_draft.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register_draft.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register_draft.compeny_id', $compeny_id)->where('asitek_bill_register_draft.Add_By', $emp_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')")->orderBy('asitek_bill_register_draft.id', 'desc')->paginate($perPage);
+        }
+        
+        $model3 = new EmployeeModel();
+        $builderrecommended = $this->db->table("asitek_company_vendor");
+        $builderrecommended->select('asitek_company_vendor.Vendor_Id, asitek_party_user.id, asitek_party_user.GST_No, asitek_party_user.Name');
+        $builderrecommended->join('asitek_party_user', 'asitek_party_user.id = asitek_company_vendor.Vendor_Id');
+        $builderrecommended->where('asitek_company_vendor.Company_Id', $compeny_id);
+        $builderrecommended->groupBy('asitek_company_vendor.Vendor_Id');
+        $builderrecommended->orderBy('asitek_party_user.Name', 'ASC');
+        $data_recommended = $builderrecommended->get()->getResult();
+        
+        $model15 = new UnitModel();
+        $dax15= $model15->where("compeny_id", $compeny_id)->findAll();
+        $model16 = new DepartmentModel();
+        $dax16 = $model16->where("compeny_id", $compeny_id)->findAll();
+        $data = [
+            'users' => $users,
+            'pager' => $BillRegister->pager,
+            'startSerial' => $startSerial,
+            'nextPage' => $page + 1,
+            'previousPage' => ($page > 1) ? $page - 1 : null,
+            'dax14' => $data_recommended,
+            'dax15' => $dax15,
+            'dax16' => $dax16,
+        ];  
+        return view("view_bill_register_vendor_draft", $data);
+    }
+
     public function add_bill_vendor()
     {
         $session = \Config\Services::session();

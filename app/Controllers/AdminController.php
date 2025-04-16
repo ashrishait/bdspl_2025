@@ -120,7 +120,8 @@ class AdminController extends BaseController
         }
         elseif($Roll_id==1)
         {
-            $data['usercount'] = $this->db->table('asitek_employee')->where('compeny_id', $compeny_id)->countAllResults();  
+            $data['usercount'] = $this->db->table('asitek_employee')->where('compeny_id', $compeny_id)->countAllResults(); 
+            $data['vendor_draft_bill_count'] = $this->db->table('asitek_bill_register_draft')->where('compeny_id', $compeny_id)->countAllResults();  
             $data['VendorUsercount'] = $this->db->table('asitek_party_user')->countAllResults();
             $data['AddVendorInUsercount'] = $this->db->table('asitek_company_vendor')->where('Company_Id', $compeny_id)->countAllResults();
             $data['allBillcount'] = $this->db->table('asitek_bill_register')->where('compeny_id', $compeny_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$start_Date', '$date_format') AND STR_TO_DATE('$end_Date', '$date_format')")->countAllResults();

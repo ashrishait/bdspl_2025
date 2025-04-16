@@ -234,6 +234,18 @@
                             <div class="col-12">
                                 <div class="card-box bg-dark">
                                     <div class="inner">
+                                        <h3> <?= $vendor_draft_bill_count; ?>  </h3>
+                                        <p> Vendor Draft Bill </p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="mdi mdi-office-building-marker-outline"></i>
+                                    </div>
+                                    <a href="<?php echo base_url('/index.php/all_bill_mapping_list?Satus=1');?>" class="card-box-footer py-2">View More <i class="fa fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card-box bg-dark">
+                                    <div class="inner">
                                         <h3> <?= $BillMappingPendingcount; ?> (<span class="mdi mdi-currency-rupee"></span> <?php echo number_format((float)$BillMappingPendinSum['Bill_Amount'], 2, '.', ''); ?>) </h3>
                                         <p> Pending Bill Assigment </p>
                                     </div>
