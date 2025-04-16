@@ -254,6 +254,7 @@ $routes->get('/all-vendor-rejected-list','BillRegisterController::all_vendor_rej
 $routes->get('/add_bill_register', 'BillRegisterController::index',['filter'=>'authGuard']); 
 $routes->post('/set_bill_register', 'BillRegisterController::store_bill_register',['filter'=>'authGuard']); 
 $routes->get('/view_bill_register', 'BillRegisterController::view_bill_register',['filter'=>'authGuard']); 
+$routes->get('/view_bill_register_vendor_draft', 'BillRegisterController::view_bill_register_vendor_draft',['filter'=>'authGuard']);
 $routes->get('/bill_edit/(:num)', 'BillRegisterController::bill_edit/$1',['filter'=>'authGuard']); 
 
 $routes->get('/add-bill-vendor', 'BillRegisterController::add_bill_vendor',['filter'=>'authGuard']); 
