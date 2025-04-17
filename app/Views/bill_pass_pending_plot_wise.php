@@ -471,7 +471,7 @@ foreach ($billShippedData as $row) {
             <thead>
                 <tr>
                     <th><b>Month</b></th>
-                    <th><b>Total Bill Amount</b></th>
+                    <th><b>Shipped Amount</b></th>
                     <th><b>Bill Pass Amount</b></th>
                     <th><b>Balance Amount</b></th>
                     <th><b>Balance To Ship</b></th>
