@@ -111,6 +111,7 @@ class EmployeeController extends BaseController
     public function store_employee()      
     {
         $validation =  \Config\Services::validation(); 
+        $db2 = \Config\Database::connect('second'); // second DB
         $validation->setRules([ 
             'F_Name' => 'required|string',
             'Gender' => 'required',
@@ -175,9 +176,10 @@ class EmployeeController extends BaseController
                 'emp_image'  => $imageName
             ];
             $emp = new EmployeeModel();
-            $empinsert = $emp->insert($data);      
+            $empinsert = $emp->insert($data);  
+               
             $user_id = $emp->getInsertID(); 
-            $string2='HTSJJ';
+            $string2=rand(0000000,9999999);
             $Emp_id_no2=$string2.$user_id;
             if($empinsert){
                 $daga = [ 
@@ -193,6 +195,31 @@ class EmployeeController extends BaseController
                 if($uinsert){
                     $emp2 = new EmployeeModel();
                     $emp2->where('id', $user_id)->set('emp_u_id',$Emp_id_no2)->update();
+
+                    $yestwocompny = $yestwocompny = $this->db->table("asitek_bill_sample_done")->where("Bill_Management_Company_Id", $this->request->getVar("compeny_id"))->get()->getRow(); // gets the first row as an object
+
+                    if(!empty($yestwocompny)){
+                        $edata = [     
+                            'compeny_id' => $this->request->getVar('compeny_id'),  
+                            'unit_id' => $this->request->getVar('unit_id'),
+                            'emp_u_id' => $Emp_id_no2,
+                            'first_name'  => $this->request->getVar('F_Name'), 
+                            'last_name' => $this->request->getVar('L_Name'),
+                            'gender'  => $this->request->getVar('Gender'),
+                            'email'  => $this->request->getVar('Email_id'),
+                            'mobile' => $this->request->getVar('Mobile'),
+                            'office_shift' => 'NA',
+                            'role'  => $this->request->getVar('role'),
+                            'department'  => $this->request->getVar('department'),
+                            'emp_image'  => $imageName
+                        ];
+                        $builder = $db2->table('asitek_employee');
+                        $builder->insert($edata);
+
+                        $qbuilder = $db2->table('asitek_user');
+                        $qbuilder->insert($daga);
+                    } 
+
                     $session = \Config\Services::session();
                     $session->setFlashdata('emp_ok',1);
                     return redirect('add-user'); 

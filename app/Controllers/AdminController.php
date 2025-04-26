@@ -425,11 +425,11 @@ class AdminController extends BaseController
     {
         // Assuming you have loaded the necessary helper and library in the constructor
         $session = \Config\Services::session(); 
+        $db2 = \Config\Database::connect('second'); // second DB
         $result = $session->get();  
         
         $data = [
             'Company_Id' => $this->request->getPost('compeny_id'),
-            'Add_By' => $this->request->getPost('Add_By'),
         ];
     
         $selectedPages = $this->request->getPost('vendorid');
@@ -460,6 +460,28 @@ class AdminController extends BaseController
                 $data['Vendor_Id'] = $pageId;
                 $model->insert($data);
             }
+        }
+
+        $yestwocompny = $yestwocompny = $this->db->table("asitek_bill_sample_done")->where("Bill_Management_Company_Id", $this->request->getVar("compeny_id"))->get()->getRow(); // gets the first row as an object
+        if(!empty($yestwocompny)){
+            // Delete records for deselected pages
+            if (!empty($deselectedPages)) {
+                $db2->table('asitek_company_vendor')->where('Company_Id', $data['Company_Id'])->whereIn('Vendor_Id', $deselectedPages)->delete();
+            }
+        
+            // Insert records for selected pages
+            foreach ($selectedPages as $pageId) {
+                // Check if the record already exists
+                $existingRecords = $db2->table('asitek_company_vendor')->where('Company_Id', $data['Company_Id'])->where('Vendor_Id', $pageId)->get()->getRow(); // fetches a single result row as an object
+
+                
+                if (empty($existingRecords)) {
+                    $data['Vendor_Id'] = $pageId;
+                    $db2->table('asitek_company_vendor')->insert($data);
+                }
+            }
+            // $builder = $db2->table('asitek_bill_register');
+            // $builder->insert($samplingdata);
         }
 
         // Redirect or do something else after the insertion

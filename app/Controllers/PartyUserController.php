@@ -85,6 +85,7 @@ class PartyUserController extends BaseController
 
     public function store_party_user()      
     {
+        $db2 = \Config\Database::connect('second'); // second DB
         $validation =  \Config\Services::validation(); 
         $session = \Config\Services::session();
         $PartyUser = new PartyUserModel();
@@ -114,7 +115,13 @@ class PartyUserController extends BaseController
                 'permanent_city'  => $this->request->getVar('PCity'),
                 'permanent_pincode' => $this->request->getVar('PPincode')
             ];
-            $PartyUserinsert = $PartyUser->insert($data);      
+            $PartyUserinsert = $PartyUser->insert($data);  
+            $yestwocompny = $yestwocompny = $this->db->table("asitek_bill_sample_done")->where("Bill_Management_Company_Id", $this->request->getVar("compeny_id"))->get()->getRow(); // gets the first row as an object
+
+            if(!empty($yestwocompny)){
+                $builder = $db2->table('asitek_party_user');
+                $builder->insert($data);
+            }    
             if($PartyUserinsert){
                 $session->setFlashdata('emp_ok',1);
                 return redirect('add_party_user'); 

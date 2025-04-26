@@ -458,6 +458,7 @@ class BillRegisterController extends BaseController
         $result = $session->get();
         $email = \Config\Services::email();
         $validation = \Config\Services::validation();
+        $db2 = \Config\Database::connect('second'); // second DB
         $BillRegister = new BillRegisterModel();
         $vendormodel = new PartyUserModel();
         $companymodel = new CompenyModel();
@@ -514,6 +515,28 @@ class BillRegisterController extends BaseController
             ];
         
             $BillRegisterinsert = $BillRegister->insert($data);
+            $yestwocompny = $yestwocompny = $this->db->table("asitek_bill_sample_done")->where("Bill_Management_Company_Id", $this->request->getVar("compeny_id"))->get()->getRow(); // gets the first row as an object
+
+            if(!empty($yestwocompny)){
+                $samplingdata = [
+                    "uid" => $uidno,
+                    "compeny_id" => $this->request->getVar("compeny_id"),
+                    "Add_By" => $this->request->getVar("Add_By"),
+                    "Bill_No" => $this->request->getVar("Bill_No"),
+                    "Gate_Entry_No" => $this->request->getVar("Gate_Entry_No"),
+                    "Unit" => $this->request->getVar("Unit_Id"),
+                    "Party_Name" => $this->request->getVar("Vendor_Id"),
+                    "Bill_Date" => $this->request->getVar("Bill_DateTime"),
+                    "Gate_Entry_Date" => $this->request->getVar("Gate_Entry_Date"),
+                    "Bill_Amount" => $this->request->getVar("Bill_Amount"),
+                    "Remark" => $this->request->getVar("Remark"),
+                    "Bill_Pic" => $imageName,
+                    "DateTime" => $DateTime,
+                    "Department_Id" => $this->request->getVar("Department_Id"),
+                ];
+                $builder = $db2->table('asitek_bill_register');
+                $builder->insert($samplingdata);
+            }
             $lastId = $BillRegister->getInsertID();
             $string2 = "REG";
             $Bill_No = $lastId;
