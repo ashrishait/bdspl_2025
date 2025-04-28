@@ -515,28 +515,7 @@ class BillRegisterController extends BaseController
             ];
         
             $BillRegisterinsert = $BillRegister->insert($data);
-            $yestwocompny = $yestwocompny = $this->db->table("asitek_bill_sample_done")->where("Bill_Management_Company_Id", $this->request->getVar("compeny_id"))->get()->getRow(); // gets the first row as an object
-
-            if(!empty($yestwocompny)){
-                $samplingdata = [
-                    "uid" => $uidno,
-                    "compeny_id" => $this->request->getVar("compeny_id"),
-                    "Add_By" => $this->request->getVar("Add_By"),
-                    "Bill_No" => $this->request->getVar("Bill_No"),
-                    "Gate_Entry_No" => $this->request->getVar("Gate_Entry_No"),
-                    "Unit" => $this->request->getVar("Unit_Id"),
-                    "Party_Name" => $this->request->getVar("Vendor_Id"),
-                    "Bill_Date" => $this->request->getVar("Bill_DateTime"),
-                    "Gate_Entry_Date" => $this->request->getVar("Gate_Entry_Date"),
-                    "Bill_Amount" => $this->request->getVar("Bill_Amount"),
-                    "Remark" => $this->request->getVar("Remark"),
-                    "Bill_Pic" => $imageName,
-                    "DateTime" => $DateTime,
-                    "Department_Id" => $this->request->getVar("Department_Id"),
-                ];
-                $builder = $db2->table('asitek_bill_register');
-                $builder->insert($samplingdata);
-            }
+            
             $lastId = $BillRegister->getInsertID();
             $string2 = "REG";
             $Bill_No = $lastId;
@@ -5455,6 +5434,7 @@ public function CheckUp_RecivedBill()
         $result = $session->get();
         $Mapping_By_MasterId = $result["emp_id"];
         $email = \Config\Services::email();
+        $db2 = \Config\Database::connect('second'); // second DB
         $model = new BillRegisterModel();
         $vendormodel = new PartyUserModel();
         $companymodel = new CompenyModel();
@@ -5475,7 +5455,7 @@ public function CheckUp_RecivedBill()
 
         $billid = $this->db
             ->query(
-                "SELECT id,Department_Id,Department_Emp_Id, Vendor_Id from asitek_bill_register WHERE compeny_id='$companyid' AND uid = '$uid' AND (Bill_Acceptation_Status = '2' OR Bill_Acceptation_Status = '4')"
+                "SELECT id, uid, Department_Id, Department_Emp_Id, Vendor_Id, Add_By, Bill_No, Gate_Entry_No, Unit_Id, Bill_DateTime, Gate_Entry_Date, Bill_Amount, Remark, Bill_Pic from asitek_bill_register WHERE compeny_id='$companyid' AND uid = '$uid' AND (Bill_Acceptation_Status = '2' OR Bill_Acceptation_Status = '4')"
             )
             ->getResult(); // Adjust the column name based on your database structure
 
@@ -5522,12 +5502,7 @@ public function CheckUp_RecivedBill()
                     "Mapping_Remark" => $mappingremark,
                 ];
 
-                if (
-                    $model
-                        ->where("id", $id)
-                        ->set($data)
-                        ->update()
-                ) {
+                if ($model->where("id", $id)->set($data)->update()) {
                     // ****Start RewardPoint**
                     $Add_RewardPoint = 20;
 
@@ -5616,6 +5591,32 @@ public function CheckUp_RecivedBill()
                         "status" => "success",
                         "message" => "Bill Send for Verification successfully!",
                     ];
+
+                    if($depart==12||$depart==35){
+                        $todatdatetime = date('Y-m-d H:i:s');
+                        $yestwocompny = $this->db->table("asitek_bill_sample_done")->where("Bill_Management_Company_Id", $companyid)->get()->getRow(); // gets the first row as an object
+
+                        if(!empty($yestwocompny)){
+                            $samplingdata = [
+                                "uid" => $uid,
+                                "compeny_id" => $companyid,
+                                "Add_By" => $billid[0]->Add_By,
+                                "Bill_No" => $billid[0]->Bill_No,
+                                "Gate_Entry_No" => $billid[0]->Gate_Entry_No,
+                                "Unit" => $billid[0]->Unit_Id,
+                                "Party_Name" => $billid[0]->Vendor_Id,
+                                "Bill_Date" => $billid[0]->Bill_DateTime,
+                                "Gate_Entry_Date" => $billid[0]->Gate_Entry_Date,
+                                "Bill_Amount" => $billid[0]->Bill_Amount,
+                                "Remark" => $billid[0]->Remark,
+                                "Bill_Pic" => $billid[0]->Bill_Pic,
+                                "DateTime" => $billid[0]->id,
+                                "Department_Id" => $billid[0]->Department_Id,
+                            ];
+                            $builder = $db2->table('asitek_bill_register');
+                            $builder->insert($samplingdata);
+                        }
+                    }
 
                     return $this->response->setJSON($data);
                 }
