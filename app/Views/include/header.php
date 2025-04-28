@@ -101,7 +101,7 @@ if($Roll_id=='Vendor')
                     </div>
                     <ul class="navbar-nav navbar-nav-right">
                         <li class="nav-item nav-profile dropdown">
-                            <a href="https://sampling.bdslp.com/" target="_blank">Login To Sampling Software</a>
+                            <a href="https://sampling.bdslp.com/" target="_blank" class="text-white">Login To Sampling Software</a>
                         </li>
                         <li class="nav-item nav-profile dropdown">
                             <?php 
