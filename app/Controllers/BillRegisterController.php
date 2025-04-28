@@ -5592,7 +5592,7 @@ public function CheckUp_RecivedBill()
                         "message" => "Bill Send for Verification successfully!",
                     ];
 
-                    if($depart==12||$depart==35){
+                    if($selectbill==12||$selectbill==35){
                         $todatdatetime = date('Y-m-d H:i:s');
                         $yestwocompny = $this->db->table("asitek_bill_sample_done")->where("Bill_Management_Company_Id", $companyid)->get()->getRow(); // gets the first row as an object
 
