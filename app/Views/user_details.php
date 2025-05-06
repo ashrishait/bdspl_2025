@@ -590,7 +590,7 @@
                                                                                    <?php
                                                                                    if(isset($dax9)){
                                                                                       foreach ($dax9 as $row9){ ?>
-                                                                                       <option value="<?php echo $row9['Id']; ?>"><?php echo ucwords($row9['Department_Name']); ?></option>
+                                                                                       <option value="<?php echo $row9['Id']; ?>"  <?php if($row['department']==$row9['Id']) {echo 'selected';} ?>><?php echo ucwords($row9['Department_Name']); ?></option>
                                                                                        <?php }
                                                                                     } ?>    
                                                                                </select>
