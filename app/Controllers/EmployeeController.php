@@ -322,7 +322,7 @@ class EmployeeController extends BaseController
         $model3 = new ClassModel();            
         $data['dax3']=$model3->findAll();   
         $model9 = new DepartmentnameModel(); 
-        $data['dax9']=$model9->where('Company_Id', $compeny_id)->findAll();
+        $dax9=$model9->where('Company_Id', $compeny_id)->findAll();
         $model10 = new RollModel();                  
         $dax10=$model10->findAll(); 
         $model11 = new UnitModel();  
@@ -335,6 +335,7 @@ class EmployeeController extends BaseController
             'previousPage' => ($page > 1) ? $page - 1 : null,
             'dax10' => $dax10,
             'dax11' => $dax11,
+            'dax9' => $dax9,
         ];   
         return view('user_details',$data);   
     }   
