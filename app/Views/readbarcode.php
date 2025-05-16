@@ -7,10 +7,10 @@
     <title>Wait......</title>
     <?php 
     if(!empty($billid)){ ?>
-        <meta http-equiv="Refresh" content="2;url='http://192.168.1.250:8080/bill_management/index.php/sigle_bill_list/<?php echo $billid[0]->id;?>'" />
+        <meta http-equiv="Refresh" content="2;url='https://app.bdslp.com/bill_management/index.php/sigle_bill_list/<?php echo $billid[0]->id;?>'" />
     <?php }
     else{ ?>
-        <meta http-equiv="Refresh" content="2;url='http://192.168.1.250:8080/bill_management/index.php/page-404'" />
+        <meta http-equiv="Refresh" content="2;url='https://app.bdslp.com/bill_management/index.php/page-404'" />
     <?php }
     ?>
     <style type="text/css">
