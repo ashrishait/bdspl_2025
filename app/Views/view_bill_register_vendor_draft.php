@@ -226,7 +226,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                                 <td>
                                                                     <?php 
                                                                     if($Roll_id=='1'){ ?>
-                                                                    <span class="span text-primary" data-bs-toggle="modal" data-bs-target="#bd-example-modal-lg-Edit<?php echo $row['id']; ?>" title="Edit Bill"><span class="mdi mdi-pen"></span></span>
+                                                                    <!-- <span class="span text-primary" data-bs-toggle="modal" data-bs-target="#bd-example-modal-lg-Edit<?php echo $row['id']; ?>" title="Edit Bill"><span class="mdi mdi-pen"></span></span> -->
                                                                     <?php } ?>
                                                                     <?php 
                                                                         if($row['Bill_Acceptation_Status']==1||$row['Bill_Acceptation_Status']==3)
