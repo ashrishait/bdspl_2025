@@ -174,7 +174,7 @@ $today = date('Y-m-d');
                                             <tr>
                                                 <td class="border border-slate-300 p-2"><?= $startSerial++ ?></td>
                                                 <td class="border border-slate-300 p-2"><?php echo date('d-m-Y H:i:s', strtotime($row['DateTime']))?></td>
-                                                <td class="border border-slate-300 p-2"><?php echo $row['DateTime'];?></td>
+                                                <td class="border border-slate-300 p-2"><a href='<img src="<?php echo base_url();?>/vendors/PicUploadDraft/<?php echo $row['Bill_Pic'];?>"'>Link</a></td>
                                                 <td class="border border-slate-300 p-2"><?php echo $row['uid'];?></td>
                                                 <td class="border border-slate-300 p-2"><?php echo $row['companyname'];?></td>
                                                 <td class="border border-slate-300 p-2"><?php echo $row['Bill_No'];?></td>
