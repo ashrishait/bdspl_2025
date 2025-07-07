@@ -174,7 +174,12 @@ $today = date('Y-m-d');
                                             <tr>
                                                 <td class="border border-slate-300 p-2"><?= $startSerial++ ?></td>
                                                 <td class="border border-slate-300 p-2"><?php echo date('d-m-Y H:i:s', strtotime($row['DateTime']))?></td>
-                                                <td class="border border-slate-300 p-2"><a href='<img src="vendors/PicUploadDraft/<?php echo $row['Bill_Pic'];?>"'>Link</a></td>
+                                                <td class="border border-slate-300 p-2">
+                                                    <?php 
+                                                        if(!empty($row['Bill_Pic'])){ ?>
+                                                            <a href="<?php echo base_url('public/vendors/PicUploadDraft/'.$row['Bill_Pic']);?>" target="_blank">link</a>
+                                                    <?php } ?>
+                                                </td>
                                                 <td class="border border-slate-300 p-2"><?php echo $row['uid'];?></td>
                                                 <td class="border border-slate-300 p-2"><?php echo $row['companyname'];?></td>
                                                 <td class="border border-slate-300 p-2"><?php echo $row['Bill_No'];?></td>
