@@ -219,6 +219,12 @@ class BillRegisterController extends BaseController
         $session = \Config\Services::session();
         $result = $session->get();
         $emp_id = $session->get("emp_id");
+        $BillRegister = new BillRegisterModelDraft();
+
+        $page = $this->request->getVar('page') ?? 1;
+        $perPage = 50;
+        $startSerial = ($page - 1) * $perPage + 1;
+
         $model = new StateModel();
         $data["dax"] = $model->findAll();
 
@@ -233,8 +239,18 @@ class BillRegisterController extends BaseController
         $builderrecommended->where('asitek_vendor_company.Vendor_Id', $emp_id);
         $builderrecommended->groupBy('asitek_compeny.id');
         $data_recommended = $builderrecommended->get()->getResult();
+        
+        $userbill = $BillRegister->select("asitek_bill_register_draft.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name,asitek_compeny.name as companyname")->join('asitek_employee', 'asitek_bill_register_draft.Add_By = asitek_employee.id', 'left')->join('asitek_compeny', 'asitek_bill_register_draft.compeny_id = asitek_compeny.id')->join('asitek_vendor_company', 'asitek_compeny.id = asitek_vendor_company.Company_Id')->where('asitek_bill_register_draft.Vendor_Id', $emp_id)->where('asitek_vendor_company.Vendor_Id', $emp_id)->orderBy('asitek_bill_register_draft.Bill_DateTime', 'desc')->paginate($perPage);
 
-        $data["company"] = $data_recommended;
+        $data = [
+            'company' => $data_recommended,
+            'billdrftlist' => $userbill,
+            'pager' => $BillRegister->pager,
+            'startSerial' => $startSerial,
+            'nextPage' => $page + 1,
+            'previousPage' => ($page > 1) ? $page - 1 : null,
+        ];
+
         return view("add-bill-vendor", $data);
     }
 
@@ -7506,4 +7522,17 @@ public function CheckUp_RecivedBill()
       }
                 return view("test");
     }
+
+
+    public function bill_draft_delete()
+    {
+        $session = \Config\Services::session();
+
+        $BillRegister = new BillRegisterModelDraft();
+        $BillRegister->where("id", $this->request->getVar("id"))->delete();
+
+        $session->setFlashdata("delete", 1);
+        return redirect("add-bill-vendor");
+    }
+
 }

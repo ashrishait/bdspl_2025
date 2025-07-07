@@ -141,6 +141,96 @@ $today = date('Y-m-d');
                     </div>
                 </div>
             </div>
+            <div class="flex flex-wrap">
+                <div class="flex flex-row flex-wrap flex-grow mt-2">
+                    <div class="w-full md:w-full xl:w-full p-6">
+                        <!--Graph Card-->
+                        <div class="bg-white border-transparent rounded-lg shadow-xl">
+                            <div class="px-5 tableFixHead">
+                                <table class="border-separate w-full p-1 text-gray-700 table-auto hover:table-auto" id="myTable">
+                                    <thead>
+                                        <tr>
+                                            <th class="border border-slate-300 p-2">#</th>
+                                            <th class="border border-slate-300 p-2"><b>Upload Date Time</b></th>
+                                            <th class="border border-slate-300 p-2"><b>Bill Pic</b></th>
+                                            <th class="border border-slate-300 p-2"><b>Bill Id</b></th>
+                                            <th class="border border-slate-300 p-2"><b>Company Name</b></th>
+                                            <th class="border border-slate-300 p-2"><b>Bill No</b></th>
+                                            <th class="border border-slate-300 p-2"><b>Bill Amount</b></th>
+                                            <th class="border border-slate-300 p-2"><b>Bill Date</b></th>
+                                            <th class="border border-slate-300 p-2"><b>Gate</b></th> 
+                                            <th class="border border-slate-300 p-2"><b>Gate Entry Date</b></th>
+                                            <th class="border border-slate-300 p-2"><b>Remark</b></th>
+                                            <th class="border border-slate-300 p-2"><b>Action</b></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php 
+
+                                    if(isset($billdrftlist)){
+                                        foreach ($billdrftlist as $index => $row)
+                                        {
+                                            ?>
+                                            <tr>
+                                                <td class="border border-slate-300 p-2"><?= $startSerial++ ?></td>
+                                                <td class="border border-slate-300 p-2"><?php echo date('d-m-Y H:i:s', strtotime($row['DateTime']))?></td>
+                                                <td class="border border-slate-300 p-2"><?php echo $row['DateTime'];?></td>
+                                                <td class="border border-slate-300 p-2"><?php echo $row['uid'];?></td>
+                                                <td class="border border-slate-300 p-2"><?php echo $row['companyname'];?></td>
+                                                <td class="border border-slate-300 p-2"><?php echo $row['Bill_No'];?></td>
+                                                <td class="border border-slate-300 p-2"><?php echo $row['Bill_Amount'];?></td>
+                                                <td class="border border-slate-300 p-2"><?php echo $row['Bill_DateTime'];?></td>
+                                                <td class="border border-slate-300 p-2"><?php echo $row['Gate_Entry_No'];?></td>
+                                                <td class="border border-slate-300 p-2"><?php echo $row['Gate_Entry_Date'];?></td>
+                                                <td class="border border-slate-300 p-2"><?php echo $row['Remark'];?></td>
+                                                <td class="border border-slate-300 p-2">
+                                                    <button class="block text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800" type="button" data-modal-toggle="received-modal<?php echo $row['id'];?>">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                                    </button>
+                                                </td>
+                                            </tr> 
+                                            <div id="received-modal<?php echo $row['id'];?>" aria-hidden="true" class="hidden overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center">
+                                                <div class="relative p-4 w-full max-w-md max-h-full">
+                                                    <!-- Modal content -->
+                                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                        <!-- Modal header -->
+                                                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                                                Delete Bill Draft
+                                                            </h3>
+                                                            <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="received-modal<?php echo $row['id'];?>">
+                                                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                                                </svg>
+                                                                <span class="sr-only">Close modal</span>
+                                                            </button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <div class="p-4 md:p-5">
+                                                            <h4>Are you sure you want to delete this record</h4>
+                                                            <form class="space-y-4" action="<?php echo site_url('/bill-draft-delete'); ?>" method="post" enctype="multipart/form-data">
+                                                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                                                
+                                                                <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-2">Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php } 
+                                    } 
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <hr>
+                            <?php if ($pager) :?>
+                                <?= $pager->links() ?>
+                            <?php endif ?>
+                        </div>
+                    </div>
+                </div>    
+            </div>
             <?php include('include/vendor-footer.php')?>
         </div>          
         

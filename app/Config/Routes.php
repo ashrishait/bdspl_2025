@@ -260,6 +260,7 @@ $routes->get('/bill_edit/(:num)', 'BillRegisterController::bill_edit/$1',['filte
 $routes->get('/add-bill-vendor', 'BillRegisterController::add_bill_vendor',['filter'=>'authGuard']); 
 $routes->post('/update-bill-vendor-comment', 'BillRegisterController::update_bill_vendor_comment',['filter'=>'authGuard']); 
 $routes->post('/vendor-bill-received', 'BillRegisterController::vendor_bill_received',['filter'=>'authGuard']); 
+$routes->post('/bill-draft-delete', 'BillRegisterController::bill_draft_delete',['filter'=>'authGuard']);
 
 $routes->post('/del_bill_register', 'BillRegisterController::bill_register_delete',['filter'=>'authGuard']);
 $routes->post('/update_bill_register', 'BillRegisterController::update_bill_register',['filter'=>'authGuard']);
