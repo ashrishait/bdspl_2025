@@ -7535,4 +7535,78 @@ public function CheckUp_RecivedBill()
         return redirect("add-bill-vendor");
     }
 
+
+    public function edit_bill_vendor($id)
+    {
+        $session = \Config\Services::session();
+        $emp_id = $session->get("emp_id");
+
+        $BillRegister = new BillRegisterModelDraft();
+        $bill = $BillRegister->where('id', $id)->first();
+
+        if (!$bill) {
+            return redirect()->to('/add-bill-vendor')->with('error', 'Bill not found.');
+        }
+
+        // Load company dropdown
+        $companymodel = new CompenyModel();
+        $builderrecommended = $this->db->table("asitek_vendor_company");
+        $builderrecommended->select('asitek_vendor_company.Company_Id, asitek_compeny.id, asitek_compeny.name');
+        $builderrecommended->join('asitek_compeny', 'asitek_compeny.id = asitek_vendor_company.Company_Id');
+        $builderrecommended->where('asitek_vendor_company.Vendor_Id', $emp_id);
+        $builderrecommended->groupBy('asitek_compeny.id');
+        $data_recommended = $builderrecommended->get()->getResult();
+
+        $unitModel = new UnitModel();
+        $departmentModel = new DepartmentModel();
+
+        $dax15 = $unitModel->where("compeny_id", $bill['compeny_id'])->findAll();
+        $dax9 = $departmentModel->where("compeny_id", $bill['compeny_id'])->findAll();
+
+        $data = [
+            'bill' => $bill,
+            'company' => $data_recommended,
+            'dax15' => $dax15,
+            'dax9' => $dax9,
+            'emp_id' => $emp_id,
+            'today' => date('Y-m-d'),
+        ];
+
+        return view('edit-bill-vendor', $data);
+    }
+
+    public function update_bill_vendor($id)
+    {
+        helper(['form', 'url']);
+        $BillRegister = new BillRegisterModelDraft();
+        $session = \Config\Services::session();
+        $emp_id = $session->get("emp_id");
+
+        $data = [
+            'Bill_No' => $this->request->getPost('Bill_No'),
+            'Bill_DateTime' => $this->request->getPost('Bill_DateTime'),
+            'Bill_Amount' => $this->request->getPost('Bill_Amount'),
+            'compeny_id' => $this->request->getPost('company_id'),
+            'Unit_Id' => $this->request->getPost('Unit_Id'),
+            'Gate_Entry_No' => $this->request->getPost('Gate_Entry_No'),
+            'Gate_Entry_Date' => $this->request->getPost('Gate_Entry_Date'),
+            'Remark' => $this->request->getPost('Remark'),
+            'Department_Id' => $this->request->getPost('Department_Id'),
+            'Vendor_Id' => $emp_id,
+            'Add_By' => $emp_id,
+        ];
+
+        // Handle optional file update
+        $file = $this->request->getFile('E_Image');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $newName = $file->getRandomName();
+            $file->move('public/vendors/PicUploadDraft/', $newName);
+            $data['Bill_Pic'] = $newName;
+        }
+
+        $BillRegister->update($id, $data);
+
+        return redirect()->to('/add-bill-vendor')->with('success', 'Bill updated successfully.');
+    }
+
 }

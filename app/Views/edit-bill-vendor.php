@@ -43,7 +43,7 @@ $today = date('Y-m-d');
                                     } 
                                     ?>
                                 </div>
-                                <form method="post" action="<?php echo site_url('/vendor-store-bill-register'); ?>" enctype="multipart/form-data"> 
+                                <form method="post" action="<?= site_url('/vendor-update-bill-register/' . $bill['id']); ?>" enctype="multipart/form-data"> 
                                     <input  type="hidden" name="vendor_id" value="<?php echo $emp_id;?>" >
                                     <input  type="hidden" name="Add_By" value="<?php echo $emp_id;?>" >
                                     <div class="flex flex-wrap items-center">
@@ -55,7 +55,7 @@ $today = date('Y-m-d');
                                                     <?php
                                                     if(isset($company)){
                                                         foreach ($company as $row14){ ?>
-                                                            <option value="<?php echo $row14->id; ?>"><?php echo ucwords($row14->name); ?></option>
+                                                            <option value="<?= $row14->id; ?>" <?= $row14->id == $bill['compeny_id'] ? 'selected' : ''; ?>><?= ucwords($row14->name); ?></option>
                                                         <?php 
                                                         }
                                                     }?> 
@@ -65,29 +65,30 @@ $today = date('Y-m-d');
                                         <div class="md:w-1/3 justify-center md:justify-start text-white px-2">
                                             <div class="form-group">
                                                 <label for="billpic" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bill No<span style="color:red;">*</span></label>
-                                                <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" name="Bill_No" placeholder="Bill No">
+                                                <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" name="Bill_No" placeholder="Bill No" value="<?= $bill['Bill_No']; ?>">
                                             </div> 
                                         </div>
                                         <div class="md:w-1/3 justify-center md:justify-start text-white px-2">
                                             <div class="form-group">
                                                 <label for="billpic" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bill Date<span style="color:red;">*</span></label>
-                                                <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="date" name="Bill_DateTime" placeholder="" max="<?php echo $today;?>" id="Bill_DateTime">
+                                                <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="date" name="Bill_DateTime" placeholder="" max="<?php echo $today;?>" id="Bill_DateTime" value="<?= date('Y-m-d', strtotime($bill['Bill_DateTime'])); ?>">
                                             </div> 
                                         </div>
                                         <div class="md:w-1/3 justify-center md:justify-start text-white px-2">
                                             <div class="form-group">
                                                 <label for="billpic" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bill Total Amt<span style="color:red;">*</span></label>
-                                                <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" name="Bill_Amount" placeholder="Bill Total Amt"  oninput="this.value = this.value.replace(/[^0-9.]/g, '')">
+                                                <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" name="Bill_Amount" placeholder="Bill Total Amt"  oninput="this.value = this.value.replace(/[^0-9.]/g, '')" value="<?= $bill['Bill_Amount']; ?>">
                                             </div> 
                                         </div>  
                                         <div class="md:w-1/3 justify-center md:justify-start text-white px-2" >
                                             <div class="form-group">
                                                 <label for="billpic" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit<span style="color:red;">*</span></label>
                                                 <select name="Unit_Id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="Unit_Id">
-                                                        <option value="">-Select -</option>   <?php
-                                                        if(isset($dax15)){
-                                                        foreach ($dax15 as $row15){ ?>
-                                                            <option value="<?php echo $row15['id']; ?>"><?php echo ucwords($row15['name']); ?></option>
+                                                    <option value="">-Select -</option>   
+                                                    <?php
+                                                    if(isset($dax15)){
+                                                    foreach ($dax15 as $row15){ ?>
+                                                        <option value="<?= $row15['id']; ?>" <?= $row15['id'] == $bill['Unit_Id'] ? 'selected' : ''; ?>><?= ucwords($row15['name']); ?></option>
                                                     <?php }} ?>        
                                                 </select>
                                             </div>
@@ -95,23 +96,28 @@ $today = date('Y-m-d');
                                         <div class="md:w-1/3 justify-center md:justify-start text-white px-2">
                                             <div class="form-group">
                                                 <label for="billpic" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gate Entry No<span style="color:red;">*</span></label>
-                                                <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" name="Gate_Entry_No" placeholder="Gate Entry No" >
+                                                <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" name="Gate_Entry_No" placeholder="Gate Entry No" value="<?= $bill['Gate_Entry_No']; ?>">
                                             </div> 
                                         </div>
                                         <div class="md:w-1/3 justify-center md:justify-start text-white px-2">
                                             <div class="form-group">
                                                 <label for="billpic" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gate Entry Date<span style="color:red;"></span></label>
-                                                <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="date" name="Gate_Entry_Date" placeholder="" max="<?php echo $today;?>">
+                                                <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="date" name="Gate_Entry_Date" placeholder="" max="<?php echo $today;?>"  value="<?= date('Y-m-d', strtotime($bill['Gate_Entry_Date'])); ?>">
                                             </div> 
                                         </div> 
                                         <div class="md:w-1/3 justify-center md:justify-start text-white px-2">
                                             <div class="form-group"> 
                                                 <label for="billpic" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark<span style="color:red;"></span></label>
-                                                <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" name="Remark" placeholder="Remark if Any">
+                                                <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" name="Remark" placeholder="Remark if Any" value="<?= $bill['Remark']; ?>">
                                             </div> 
                                         </div>
                                         <div class="md:w-1/3 justify-center md:justify-start text-white px-2">
-                                            <label for="billpic" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bill Pic<span style="color:red;">*</span></label>
+                                            <?php if (!empty($bill['Bill_Pic'])): ?>
+                                                <div class="mt-2">
+                                                    <img src="<?= base_url('public/vendors/PicUploadDraft/' . $bill['Bill_Pic']); ?>" alt="Bill Image" style="max-height: 150px;">
+                                                </div>
+                                            <?php endif; ?>
+                                            <label for="billpic" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bill Pic</label>
                                             <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="file" name="E_Image"  id="billpic">
                                         </div>  
                                         <div class="md:w-1/3 justify-center md:justify-start text-white px-2" style="display: none;">
@@ -140,72 +146,6 @@ $today = date('Y-m-d');
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="flex flex-wrap">
-                <div class="flex flex-row flex-wrap flex-grow mt-2">
-                    <div class="w-full md:w-full xl:w-full p-6">
-                        <!--Graph Card-->
-                        <div class="bg-white border-transparent rounded-lg shadow-xl">
-                            <div class="px-5 tableFixHead">
-                                <table class="border-separate w-full p-1 text-gray-700 table-auto hover:table-auto" id="myTable">
-                                    <thead>
-                                        <tr>
-                                            <th class="border border-slate-300 p-2">#</th>
-                                            <th class="border border-slate-300 p-2"><b>Upload Date Time</b></th>
-                                            <th class="border border-slate-300 p-2"><b>Bill Pic</b></th>
-                                            <th class="border border-slate-300 p-2"><b>Bill Id</b></th>
-                                            <th class="border border-slate-300 p-2"><b>Company Name</b></th>
-                                            <th class="border border-slate-300 p-2"><b>Bill No</b></th>
-                                            <th class="border border-slate-300 p-2"><b>Bill Amount</b></th>
-                                            <th class="border border-slate-300 p-2"><b>Bill Date</b></th>
-                                            <th class="border border-slate-300 p-2"><b>Gate</b></th> 
-                                            <th class="border border-slate-300 p-2"><b>Gate Entry Date</b></th>
-                                            <th class="border border-slate-300 p-2"><b>Remark</b></th>
-                                            <th class="border border-slate-300 p-2"><b>Action</b></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php 
-
-                                    if(isset($billdrftlist)){
-                                        foreach ($billdrftlist as $index => $row)
-                                        {
-                                            ?>
-                                            <tr>
-                                                <td class="border border-slate-300 p-2"><?= $startSerial++ ?></td>
-                                                <td class="border border-slate-300 p-2"><?php echo date('d-m-Y H:i:s', strtotime($row['DateTime']))?></td>
-                                                <td class="border border-slate-300 p-2">
-                                                    <?php 
-                                                        if(!empty($row['Bill_Pic'])){ ?>
-                                                            <a href="<?php echo base_url('public/vendors/PicUploadDraft/'.$row['Bill_Pic']);?>" target="_blank">link</a>
-                                                    <?php } ?>
-                                                </td>
-                                                <td class="border border-slate-300 p-2"><?php echo $row['uid'];?></td>
-                                                <td class="border border-slate-300 p-2"><?php echo $row['companyname'];?></td>
-                                                <td class="border border-slate-300 p-2"><?php echo $row['Bill_No'];?></td>
-                                                <td class="border border-slate-300 p-2"><?php echo $row['Bill_Amount'];?></td>
-                                                <td class="border border-slate-300 p-2"><?php echo $row['Bill_DateTime'];?></td>
-                                                <td class="border border-slate-300 p-2"><?php echo $row['Gate_Entry_No'];?></td>
-                                                <td class="border border-slate-300 p-2"><?php echo $row['Gate_Entry_Date'];?></td>
-                                                <td class="border border-slate-300 p-2"><?php echo $row['Remark'];?></td>
-                                                <td class="border border-slate-300 p-2">
-                                                    <a href="<?= site_url('/vendor-edit-bill-register/' . $row['id']); ?>" class="text-blue-600 hover:underline">Edit</a>
-
-                                                </td>
-                                            </tr> 
-                                        <?php } 
-                                    } 
-                                    ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <hr>
-                            <?php if ($pager) :?>
-                                <?= $pager->links() ?>
-                            <?php endif ?>
-                        </div>
-                    </div>
-                </div>    
             </div>
             <?php include('include/vendor-footer.php')?>
         </div>          

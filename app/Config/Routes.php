@@ -316,6 +316,10 @@ $routes->get('/reject_Clear_Bill_Form', 'BillRegisterController::reject_Clear_Bi
 $routes->get('/all_Clear_Bill_Form_list', 'BillRegisterController::all_Clear_Bill_Form_list',['filter'=>'authGuard']);
 $routes->get('/all-Clear-Bill-Form-vendor-list', 'BillRegisterController::all_Clear_Bill_Form_vendor_list',['filter'=>'authGuard']);
 
+$routes->get('/vendor-edit-bill-register/(:num)', 'BillRegisterController::edit_bill_vendor/$1');
+$routes->post('/vendor-update-bill-register/(:num)', 'BillRegisterController::update_bill_vendor/$1');
+
+
 //-----------------------------Bill Manage ERP System Routes------------------------  
 
 
