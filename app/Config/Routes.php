@@ -149,6 +149,10 @@ $routes->post('/get-company-vendor', 'AdminController::getCompanyPages',['filter
 $routes->get('/allmessagerequest', 'AdminController::allmessagerequest',['filter'=>'authGuard']);
 $routes->get('/add-vendor-in-organization', 'AdminController::addvendorinorganization',['filter'=>'authGuard']);
 $routes->post('/add-vendor-to-company', 'AdminController::addvendortocompany',['filter'=>'authGuard']);
+
+$routes->get('/remove-vendor-in-organization', 'AdminController::removevendorinorganization',['filter'=>'authGuard']);
+$routes->post('/remove-vendor-to-company', 'AdminController::removevendortocompany',['filter'=>'authGuard']);
+
 $routes->get('/view-recent-login', 'AdminController::recentLogin',['filter'=>'authGuard']);
 $routes->get('/view-recent-vendor-login', 'AdminController::recentVendorLogin',['filter'=>'authGuard']);
 // $routes->post('/get-vendor-company', 'AdminController::getVendorPages',['filter'=>'authGuard']);

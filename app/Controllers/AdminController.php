@@ -448,7 +448,7 @@ class AdminController extends BaseController
     
         // Delete records for deselected pages
         if (!empty($deselectedPages)) {
-            $model->where('Company_Id', $data['Company_Id'])->whereIn('Vendor_Id', $deselectedPages)->delete();
+            //$model->where('Company_Id', $data['Company_Id'])->whereIn('Vendor_Id', $deselectedPages)->delete();
         }
     
         // Insert records for selected pages
@@ -2077,6 +2077,74 @@ public function updateVendorCompanies()
         return $this->response->setJSON(['success' => true, 'message' => 'No companies were removed.']);
     }
 }
+
+
+    //Remove Vendor From Company
+    public function removevendorinorganization()  
+    {
+        $session = \Config\Services::session(); 
+        $result = $session->get();  
+        $company_id = $session->get("compeny_id");
+        $model = new PartyUserModel();  
+        $data['vendor']=$model->orderBy('Name', 'ASC')->findAll();  
+        return view('vendor-list', $data);    
+    } 
+
+    public function removevendortocompany()
+    {
+        $session = \Config\Services::session(); 
+        $db2 = \Config\Database::connect('second'); // second DB
+        $result = $session->get();  
+        
+        $data = [
+            'Company_Id' => $this->request->getPost('compeny_id'),
+        ];
+    
+        $selectedPages = $this->request->getPost('vendorid');
+    
+        // Insert data into the asitek_emp_page_access table
+        $model = new CompanyvendorModel();
+    
+        // Fetch existing records for the employee from the database
+        $existingRecords = $model->where('Company_Id', $data['Company_Id'])->findAll();
+        
+        // Create an array of existing page IDs
+        $existingPageIds = array_column($existingRecords, 'Vendor_Id');
+        
+        // Find deselected pages (existing pages not in selectedPages)
+        $deselectedPages = array_diff($existingPageIds, $selectedPages);
+    
+        // Delete records for deselected pages
+        if (!empty($deselectedPages)) {
+            $model->where('Company_Id', $data['Company_Id'])->whereIn('Vendor_Id', $deselectedPages)->delete();
+        }
+
+        $yestwocompny = $yestwocompny = $this->db->table("asitek_bill_sample_done")->where("Bill_Management_Company_Id", $this->request->getVar("compeny_id"))->get()->getRow(); // gets the first row as an object
+        if(!empty($yestwocompny)){
+            // Delete records for deselected pages
+            if (!empty($deselectedPages)) {
+                $db2->table('asitek_company_vendor')->where('Company_Id', $data['Company_Id'])->whereIn('Vendor_Id', $deselectedPages)->delete();
+            }
+        
+            // Insert records for selected pages
+            foreach ($selectedPages as $pageId) {
+                // Check if the record already exists
+                $existingRecords = $db2->table('asitek_company_vendor')->where('Company_Id', $data['Company_Id'])->where('Vendor_Id', $pageId)->get()->getRow(); // fetches a single result row as an object
+
+                
+                if (empty($existingRecords)) {
+                    $data['Vendor_Id'] = $pageId;
+                    $db2->table('asitek_company_vendor')->insert($data);
+                }
+            }
+            // $builder = $db2->table('asitek_bill_register');
+            // $builder->insert($samplingdata);
+        }
+
+        // Redirect or do something else after the insertion
+        $session->setFlashdata('success', "<div class='alert alert-success' role='alert'> Vendor is deleted from your organization. </div>");
+        return redirect('remove-vendor-in-organization'); 
+    }
 
 
 }

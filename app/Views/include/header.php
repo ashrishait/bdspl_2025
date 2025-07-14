@@ -314,6 +314,7 @@ if($Roll_id=='Vendor')
                                             <li class="nav-item"><a class="nav-link" href="<?php echo base_url('/index.php/add_party_user');?>">Add Vendor</a></li>
                                             <li class="nav-item"><a class="nav-link" href="<?php echo base_url('/index.php/view_party_user');?>">View Vendor</a></li>
                                             <li class="nav-item"><a class="nav-link" href="<?php echo base_url('/index.php/add-vendor-in-organization');?>">Add Vendor for You Company</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="<?php echo base_url('/index.php/remove-vendor-in-organization');?>">Remove Vendor from You Company</a></li>
                                             <li class="nav-item"><a class="nav-link" href="<?php echo base_url('/index.php/change-password');?>">Change password</a></li>
                                             <li class="nav-item"><a class="nav-link" href="<?php echo base_url('/index.php/logout');?>">Logout</a></li>
                                         </ul>   
