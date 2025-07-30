@@ -293,251 +293,200 @@
                         <br>
                         <div class="row">
                             <div class="col-md-6" >
-                                    <table class="table table-striped table-bordered table-hover" style="width:100%">
-                                       <thead>
-                                          
-                                          <tr>
-                                             <th><b>Bill Type</b></th>
-                                             <th><b>Total Bill </b></th>
-                                             <th><b>Total Bill Amount</b></th>
-                                          </tr>
-                                       </thead>
-                                       <tbody>
+                                 <table class="table table-striped table-bordered table-hover" style="width:100%">
+                                    <thead>
+                                       
+                                       <tr>
+                                          <th><b>Bill Type</b></th>
+                                          <th><b>Total Bill </b></th>
+                                          <th><b>Total Bill Amount</b></th>
+                                          <th><b>#</b></th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php 
+                                       $All_BillType_total_amount = 0;
+                                       $billData = [];
 
-                                          <?php 
-                                          $i2=0;
-                                          $All_BillType_total_amount=0;
-                                          $BillType_total_bill=0;                                      
-                                        
-                                                                   
-   $billData = []; // Array to store the bill data before sorting
+                                       if (isset($dax2)) {
+                                          foreach ($dax2 as $row2) {
+                                             $BillType_bill_i = 0;
+                                             $BillType_total_amount = 0;
 
-   if(isset($dax2)){
-      foreach ($dax2 as $row2){
-         $BillType_bill_i = 0;
-         $BillType_total_amount = 0;
+                                             $BillTyperow = $BillRegisterModelObj->where('compeny_id', $compeny_id)
+                                                ->where('Bill_Type', $row2['id'])
+                                                ->where("STR_TO_DATE(Bill_DateTime, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'")
+                                                ->findAll();
 
-         $BillTyperow = $BillRegisterModelObj->where('compeny_id', $compeny_id)
-            ->where('Bill_Type', $row2['id'])
-            ->where("STR_TO_DATE(Bill_DateTime, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'")
-            ->findAll();
-
-         if (!empty($BillTyperow)) {
-            foreach ($BillTyperow as $BillTyperow2) {
-               $BillType_bill_i++;
-               $BillType_total_amount += $BillTyperow2['Bill_Amount'];
-            }
-         }
-
-         if ($BillType_bill_i > 0) {
-            $billData[] = [
-               'name' => $row2['name'],
-               'total_bill' => $BillType_bill_i,
-               'total_amount' => $BillType_total_amount
-            ];
-         }
-      }
-   }
-
-   // Sort the array in descending order based on 'total_amount'
-   usort($billData, function($a, $b) {
-      return $b['total_amount'] <=> $a['total_amount'];
-   });
-
-   // Display the sorted data
-   foreach ($billData as $bill) {
-?>
-      <tr>
-         <td><?php echo $bill['name']; ?></td>
-         <td><?php echo $bill['total_bill']; ?></td>
-         <td><?php echo moneyFormatIndia($bill['total_amount']); ?></td>
-      </tr>
-<?php 
-      $All_BillType_total_amount += $bill['total_amount'];
-   } 
-?>
-<tr>
-   <td></td>
-   <td></td>
-   <td><?php if($All_BillType_total_amount > 0) { echo moneyFormatIndia($All_BillType_total_amount); } ?> </td>
-</tr>
-
-                                       </tbody>
-                                    </table>
-                                 </div>
-
-
-
-                                                 <?php
-// // Extract financial year from start_date
-// if (isset($_GET["start_date"])) {
-//     $start_date = $_GET["start_date"];
-//     $year1 = date("Y", strtotime($start_date));
-//     $year2 = $year1 - 1;
-
-
-   
-//     // If the selected month is Jan-March, adjust financial year
-//     $selectedMonth = date("n", strtotime($start_date));
-
-
-    
-
-
-//     if ($selectedMonth <= 3) {
-//         $year1 = $year2;
-//         $year2 = $year1 + 1;
-//     }
-// } else {
-//      $year1 = $year2;
-//         $year2 = $year1 + 1;
-// }
-
-
-
-// Extract financial year from start_date
-if (isset($_GET["start_date"])) {
-    $start_date = $_GET["start_date"];
-    $end_date = $_GET["end_date"];
-    $year1 = date("Y", strtotime($start_date));
-    $year2 = $year1 - 1;
-    $year3 = date("Y", strtotime($end_date));
-
-
-   
-    // If the selected month is Jan-March, adjust financial year
-    $selectedMonth = date("n", strtotime($start_date));
-
-
-    
-
-
-//     if ($selectedMonth <= 3) {
-//         $year1 = $year2;
-//         $year2 = $year1 + 1;
-//     }
-// } else {
-//     $year1 = date("Y");
-//     $year2 = $year1 - 1;
-// }
-
-
-
-
-    if ($selectedMonth <= 3) {
-        // If the selected month is Jan-March, adjust financial year
-        $year1 = $year2;
-        $year2 = $year1 + 1;
-    } elseif ($selectedMonth >= 4 && date("n", strtotime($end_date)) <= 3) {
-        // If the selected month is April-March (financial year format)
-        $year1 = date("Y", strtotime($start_date));
-        $year2 = $year1 + 1;
-    }
-} else {
-    // $year1 = date("Y");
-    $year2 = $year1 - 1;
-}
-
-
-
-
-// Define months for the financial year April to March
-$months = [
-    'April', 'May', 'June', 'July', 'August', 'September', 
-    'October', 'November', 'December', 'January', 'February', 'March'
-];
-
-// Fetch all relevant data for the selected company
-$billShippedData = $BillShippedModelobg
-    ->where('compeny_id', $compeny_id)
-    ->groupStart()
-        ->where('Year', $year1)
-        ->orWhere('Year', $year2)
-    ->groupEnd()
-    ->findAll();
-
-
-// Convert data into an associative array for easy lookup
-$billDataMap = [];
-foreach ($billShippedData as $row) {
-    $billDataMap[$row['Year']][$row['Month']] = $row;
-}
-
-?>
-
-<div class="col-md-6">
-    <form method="get" action="<?php echo site_url('/bill_pass_pending_plot_wise'); ?>" enctype="multipart/form-data">
-        <table id="example22" class="table table-striped table-bordered table-hover" style="width:100%">
-            <thead>
-                <tr>
-                    <th><b>Month</b></th>
-                    <th><b>Shipped Amount</b></th>
-                    <th><b>Bill Pass Amount</b></th>
-                    <th><b>Balance Amount</b></th>
-                    <th><b>Balance To Ship</b></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                // Initialize totals
-                $AllTotalAmount = 0;
-                $TotalBillPassAmount = 0;
-                $TotalBalanceAmount = 0;
-                $BalanceToShipAmount = 0;
-
-                foreach ($months as $month) {
-                    // Determine the correct year for each month
-                    $year = in_array($month, ['January', 'February', 'March']) ? $year1 + 1 : $year1;
-                    
-                    // Fetch row data
-                    $rowData = isset($billDataMap[$year][$month]) ? $billDataMap[$year][$month] : null;
-
-                    // Extract values safely
-                    $totalAmount = $rowData ? $rowData['TotalAmount'] : '0';
-                    $billPassAmount = $rowData ? $rowData['BillPassAmount'] : '0';
-                    $balanceAmount = $rowData ? $rowData['BalanceAmount'] : '0';
-                    $balanceToShip = $rowData ? $rowData['BalanceToShipAmount'] : '0';
-
-                    // Add to totals
-                    $AllTotalAmount += $totalAmount;
-                    $TotalBillPassAmount += $billPassAmount;
-                    $TotalBalanceAmount += $balanceAmount;
-                    $BalanceToShipAmount += $balanceToShip;
-
-                    echo "<tr>
-                            <td>$month</td>
-                            <td>" . moneyFormatIndia($totalAmount) . "</td>
-                            <td>" . moneyFormatIndia($billPassAmount) . "</td>
-                            <td>" . moneyFormatIndia($balanceAmount) . "</td>
-                            <td>" . moneyFormatIndia($balanceToShip) . "</td>
-                          </tr>";
-                }
-                ?>
-                <tr>
-                    <th>G. Total</th>
-                    <th><?php echo moneyFormatIndia($AllTotalAmount); ?></th>
-                    <th><?php echo moneyFormatIndia($TotalBillPassAmount); ?></th>
-                    <th><?php echo moneyFormatIndia($TotalBalanceAmount); ?></th>
-                    <th><?php echo moneyFormatIndia($BalanceToShipAmount); ?></th>
-                </tr>
-                <tr>
-                                             <th>Rs.  <?php echo moneyFormatIndia($AllTotalAmount);?></th>
-                                             <td>Bill Expense</td>
-                                             <td><?php
-                                                if ($AllTotalAmount != 0) {
-                                                   // Calculate the percentage
-                                                   $percentage = ($TotalBillPassAmount / $AllTotalAmount) * 100;
-                                                   echo round($percentage,2);
+                                             if (!empty($BillTyperow)) {
+                                                foreach ($BillTyperow as $BillTyperow2) {
+                                                   $BillType_bill_i++;
+                                                   $BillType_total_amount += $BillTyperow2['Bill_Amount'];
                                                 }
-                                               ?> %
-                                             </td>
-                                             <td></td>
-                                             <td></td>
-                                          </tr>
-            </tbody>
-        </table>
-    </form>
-</div>
+                                             }
+
+                                             if ($BillType_bill_i > 0) {
+                                                $billData[] = [
+                                                   'name' => $row2['name'],
+                                                   'total_bill' => $BillType_bill_i,
+                                                   'total_amount' => $BillType_total_amount
+                                                ];
+
+                                                // Accumulate total amount here
+                                                $All_BillType_total_amount += $BillType_total_amount;
+                                             }
+                                          }
+                                       }
+
+                                       // Sort by total_amount descending
+                                       usort($billData, function($a, $b) {
+                                          return $b['total_amount'] <=> $a['total_amount'];
+                                       });
+
+                                       // Now output rows using already calculated All_BillType_total_amount
+                                       foreach ($billData as $bill) {
+                                    ?>
+                                    <tr>
+                                       <td><?php echo $bill['name']; ?></td>
+                                       <td><?php echo $bill['total_bill']; ?></td>
+                                       <td><?php echo moneyFormatIndia($bill['total_amount']); ?></td>
+                                       <td>
+                                          <?php 
+                                             echo $All_BillType_total_amount > 0 
+                                                ? number_format(($bill['total_amount'] * 100) / $All_BillType_total_amount, 2) . '%' 
+                                                : '0%'; 
+                                          ?>
+                                       </td>
+                                    </tr>
+                                    <?php } ?>
+
+                                    <tr>
+                                       <td></td>
+                                       <td></td>
+                                       <td><strong><?php echo moneyFormatIndia($All_BillType_total_amount); ?></strong></td>
+                                       <td><strong>100%</strong></td>
+                                    </tr>
+
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <?php
+                              if (isset($_GET["start_date"])) {
+                                  $start_date = $_GET["start_date"];
+                                  $end_date = $_GET["end_date"];
+                                  $year1 = date("Y", strtotime($start_date));
+                                  $year2 = $year1 - 1;
+                                  $year3 = date("Y", strtotime($end_date));
+                                  $selectedMonth = date("n", strtotime($start_date));
+                                  if ($selectedMonth <= 3) {
+                                      // If the selected month is Jan-March, adjust financial year
+                                      $year1 = $year2;
+                                      $year2 = $year1 + 1;
+                                  } elseif ($selectedMonth >= 4 && date("n", strtotime($end_date)) <= 3) {
+                                      // If the selected month is April-March (financial year format)
+                                      $year1 = date("Y", strtotime($start_date));
+                                      $year2 = $year1 + 1;
+                                  }
+                              } else {
+                                  // $year1 = date("Y");
+                                  $year2 = $year1 - 1;
+                              }
+                              // Define months for the financial year April to March
+                              $months = [
+                                  'April', 'May', 'June', 'July', 'August', 'September', 
+                                  'October', 'November', 'December', 'January', 'February', 'March'
+                              ];
+
+                              // Fetch all relevant data for the selected company
+                              $billShippedData = $BillShippedModelobg
+                                  ->where('compeny_id', $compeny_id)
+                                  ->groupStart()
+                                      ->where('Year', $year1)
+                                      ->orWhere('Year', $year2)
+                                  ->groupEnd()
+                                  ->findAll();
+
+
+                              // Convert data into an associative array for easy lookup
+                              $billDataMap = [];
+                              foreach ($billShippedData as $row) {
+                                  $billDataMap[$row['Year']][$row['Month']] = $row;
+                              }
+                              ?>
+
+                              <div class="col-md-6">
+                                  <form method="get" action="<?php echo site_url('/bill_pass_pending_plot_wise'); ?>" enctype="multipart/form-data">
+                                      <table id="example22" class="table table-striped table-bordered table-hover" style="width:100%">
+                                          <thead>
+                                              <tr>
+                                                  <th><b>Month</b></th>
+                                                  <th><b>Shipped Amount</b></th>
+                                                  <th><b>Bill Pass Amount</b></th>
+                                                  <th><b>Balance Amount</b></th>
+                                                  <th><b>Balance To Ship</b></th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              <?php
+                                              // Initialize totals
+                                              $AllTotalAmount = 0;
+                                              $TotalBillPassAmount = 0;
+                                              $TotalBalanceAmount = 0;
+                                              $BalanceToShipAmount = 0;
+
+                                              foreach ($months as $month) {
+                                                  // Determine the correct year for each month
+                                                  $year = in_array($month, ['January', 'February', 'March']) ? $year1 + 1 : $year1;
+                                                  
+                                                  // Fetch row data
+                                                  $rowData = isset($billDataMap[$year][$month]) ? $billDataMap[$year][$month] : null;
+
+                                                  // Extract values safely
+                                                  $totalAmount = $rowData ? $rowData['TotalAmount'] : '0';
+                                                  $billPassAmount = $rowData ? $rowData['BillPassAmount'] : '0';
+                                                  $balanceAmount = $rowData ? $rowData['BalanceAmount'] : '0';
+                                                  $balanceToShip = $rowData ? $rowData['BalanceToShipAmount'] : '0';
+
+                                                  // Add to totals
+                                                  $AllTotalAmount += $totalAmount;
+                                                  $TotalBillPassAmount += $billPassAmount;
+                                                  $TotalBalanceAmount += $balanceAmount;
+                                                  $BalanceToShipAmount += $balanceToShip;
+
+                                                  echo "<tr>
+                                                          <td>$month</td>
+                                                          <td>" . moneyFormatIndia($totalAmount) . "</td>
+                                                          <td>" . moneyFormatIndia($billPassAmount) . "</td>
+                                                          <td>" . moneyFormatIndia($balanceAmount) . "</td>
+                                                          <td>" . moneyFormatIndia($balanceToShip) . "</td>
+                                                        </tr>";
+                                              }
+                                              ?>
+                                              <tr>
+                                                  <th>G. Total</th>
+                                                  <th><?php echo moneyFormatIndia($AllTotalAmount); ?></th>
+                                                  <th><?php echo moneyFormatIndia($TotalBillPassAmount); ?></th>
+                                                  <th><?php echo moneyFormatIndia($TotalBalanceAmount); ?></th>
+                                                  <th><?php echo moneyFormatIndia($BalanceToShipAmount); ?></th>
+                                              </tr>
+                                              <tr>
+                                                <th>Rs.  <?php echo moneyFormatIndia($AllTotalAmount+$BalanceToShipAmount);?></th>
+                                                <td>Bill Expense</td>
+                                                <td><?php
+                                                   if ($AllTotalAmount != 0) {
+                                                      // Calculate the percentage
+                                                      $percentage = ($TotalBillPassAmount / $AllTotalAmount) * 100;
+                                                      echo round($percentage,2);
+                                                   }
+                                                  ?> %
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                             </tr>
+                                          </tbody>
+                                      </table>
+                                  </form>
+                              </div>
 
                   
 
