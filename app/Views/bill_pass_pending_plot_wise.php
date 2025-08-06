@@ -375,21 +375,11 @@
                                   $start_date = $_GET["start_date"];
                                   $end_date = $_GET["end_date"];
                                   $year1 = date("Y", strtotime($start_date));
-                                  $year2 = $year1 - 1;
-                                  $year3 = date("Y", strtotime($end_date));
-                                  $selectedMonth = date("n", strtotime($start_date));
-                                  if ($selectedMonth <= 3) {
-                                      // If the selected month is Jan-March, adjust financial year
-                                      $year1 = $year2;
-                                      $year2 = $year1 + 1;
-                                  } elseif ($selectedMonth >= 4 && date("n", strtotime($end_date)) <= 3) {
-                                      // If the selected month is April-March (financial year format)
-                                      $year1 = date("Y", strtotime($start_date));
-                                      $year2 = $year1 + 1;
-                                  }
+                                  $year2 = $year1 + 1;
+                                  
                               } else {
                                   // $year1 = date("Y");
-                                  $year2 = $year1 - 1;
+                                  $year2 = $year1 + 1;
                               }
                               // Define months for the financial year April to March
                               $months = [
@@ -487,14 +477,6 @@
                                       </table>
                                   </form>
                               </div>
-
-                  
-
-
-
-
-
-
                            </div>
                         </div>
                      </div>
