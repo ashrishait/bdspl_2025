@@ -115,7 +115,7 @@
                                        <input type="date" name="start_date" class="form-control" required style="padding: 0.375rem 1.375rem" value="2025-04-01">
                                     </div>
                                     <div class="col-md-4" >
-                                       <input type="date" name="end_date" class="form-control" required style="padding: 0.375rem 1.375rem">
+                                       <input type="date" name="end_date" class="form-control" required style="padding: 0.375rem 1.375rem" value="<?php if (isset($end_date)) { echo $end_date; } ;?>">
                                     </div>
                                     <div class="col-md-4" >
                                        <button type="submit" class="btn btn-warning" style="padding: 0.675rem 1.375rem"> Search   </button>

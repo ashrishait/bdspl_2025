@@ -115,7 +115,7 @@
                                                 <input type="date" name="start_Date" class="form-control" required style="padding: 0.375rem 1.375rem" value="2025-04-01">
                                             </div>
                                             <div class="col-md-3" >
-                                                <input type="date" name="end_Date" class="form-control" required style="padding: 0.375rem 1.375rem">
+                                                <input type="date" name="end_Date" class="form-control" required style="padding: 0.375rem 1.375rem" value="<?php echo $end_Date;?>">
                                             </div>
                                             <div class="col-md-3" >
                                                 <select name="Vendor_Id" class="form-control" id="select-country" style="padding: 0.875rem 1.375rem;width:100%">
