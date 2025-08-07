@@ -155,18 +155,11 @@ $routes->post('/remove-vendor-to-company', 'AdminController::removevendortocompa
 
 $routes->get('/view-recent-login', 'AdminController::recentLogin',['filter'=>'authGuard']);
 $routes->get('/view-recent-vendor-login', 'AdminController::recentVendorLogin',['filter'=>'authGuard']);
-// $routes->post('/get-vendor-company', 'AdminController::getVendorPages',['filter'=>'authGuard']);
-// $routes->get('/add-company-in-vendor', 'AdminController::addcompanyinvendor',['filter'=>'authGuard']);
-// $routes->post('/add-company-to-vendor', 'AdminController::addcompanytovendor',['filter'=>'authGuard']);
 
 $routes->post('/get-vendor-company', 'AdminController::getVendorPages', ['filter' => 'authGuard']);
-
 $routes->get('/add-company-in-vendor', 'AdminController::addcompanyinvendor', ['filter' => 'authGuard']);
-
 $routes->post('/add-company-to-vendor', 'AdminController::addcompanytovendor', ['filter' => 'authGuard']);
-
 $routes->post('/fetch-vendor-companies', 'AdminController::fetchVendorCompanies', ['filter' => 'authGuard']);
-
 $routes->post('/update-vendor-companies', 'AdminController::updateVendorCompanies', ['filter' => 'authGuard']);
 
 $routes->post('/remove-mapped-companies', 'AdminController::removeMappedCompanies', ['filter' => 'authGuard']);

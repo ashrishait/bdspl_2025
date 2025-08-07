@@ -712,7 +712,7 @@ class AdminController extends BaseController
         
         // Delete records for deselected pages
         if (!empty($deselectedPages)) {
-            $model->where('Vendor_Id', $data['Vendor_Id'])->whereIn('Company_Id', $deselectedPages)->delete();
+            //$model->where('Vendor_Id', $data['Vendor_Id'])->whereIn('Company_Id', $deselectedPages)->delete();
         }
         
         // Insert records for selected pages

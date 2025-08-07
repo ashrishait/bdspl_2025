@@ -12,78 +12,73 @@ else{
     $ViewOnly='';
 }
 if($Roll_id=='Vendor')
+{
+    ?>
+    <script type="text/javascript"> 
+        alert("Page Not Access"); 
+        window.location.href="<?php echo base_url(
+            "/index.php/"
+        ); ?>"
+    </script>
+    <?php   
+}
+else
+{
+    if($Roll_id=='0')
     {
-        ?>
-        <script type="text/javascript"> 
-            alert("Page Not Access"); 
-            window.location.href="<?php echo base_url(
-                "/index.php/"
-            ); ?>"
-        </script>
-        <?php   
-    }
-    else
+
+    } 
+    elseif($Roll_id=='1')
     {
-        if($Roll_id=='0')
-        {
 
-        } 
-        elseif($Roll_id=='1')
+    } 
+    elseif($Roll_id=='2')
+    {
+        $url="/".service('request')->uri->getSegment(1);
+        $Pagerow= $PageModelObj->where('Page_Link',$url)->first();
+        if(isset($Pagerow) && $Pagerow!='')
         {
-
-        } 
-        elseif($Roll_id=='2')
-        {
-            $url="/".service('request')->uri->getSegment(1);
-           $Pagerow= $PageModelObj->where('Page_Link',$url)->first();
-            if(isset($Pagerow) && $Pagerow!='')
+            $pageacces= $employeeModel->where('Page_Id',$Pagerow['Id'])->where('Emp_Id',$emp_id)->first();
+            if(isset($pageacces) && $pageacces!='')
             {
-                $pageacces= $employeeModel->where('Page_Id',$Pagerow['Id'])->where('Emp_Id',$emp_id)->first();
-                if(isset($pageacces) && $pageacces!='')
-                  {
 
-                  } 
-                  else{
-                    if($url=="/main-dashboard")
-                        {
-                        ?>
-                            <script type="text/javascript">
-                               alert("Page Not Access"); 
-                                window.location.href="<?php echo base_url(
-                                    "/logout/"
-                                ); ?>"
-                            </script>
-                            <?php 
-                        }
-                        else
-                        {
-                            if($ViewOnly==1)
-                            {
+            } 
+            else{
+                if($url=="/main-dashboard")
+                {
+                ?>
+                    <script type="text/javascript">
+                       alert("Page Not Access"); 
+                        window.location.href="<?php echo base_url(
+                            "/logout/"
+                        ); ?>"
+                    </script>
+                    <?php 
+                }
+                else
+                {
+                    if($ViewOnly==1)
+                    {
 
-                            }
-                            else{
+                    }
+                    else{
 
-                            
-                            ?>
-                            <script type="text/javascript">
-                               alert("Page Not Access"); 
-                                window.location.href="<?php echo base_url(
-                                    "/index.php/"
-                                ); ?>"
-                            </script>
-                            <?php
-                            } 
-                        }
-                      
-                } 
-            }
-
-        } 
-
-    }
-        
+                    
+                    ?>
+                    <script type="text/javascript">
+                       alert("Page Not Access"); 
+                        window.location.href="<?php echo base_url(
+                            "/index.php/"
+                        ); ?>"
+                    </script>
+                    <?php
+                    } 
+                }
+            } 
+        }
+    } 
+}
 ?>
-    
     <div class="horizontal-menu">
         <nav class="navbar top-navbar col-lg-12 col-12 p-0" style="background: #004784;border-bottom:none;border-radius:0;">
             <div class="container-fluid">
