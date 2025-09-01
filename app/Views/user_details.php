@@ -523,7 +523,7 @@
                                                                   <div class="col-sm-12 col-md-3">
                                                                      <div class="form-group">
                                                                         <label>Gender <span style="color:red;">*</span></label>
-                                                                        <select name="Gender" class="form-control" required>
+                                                                        <select name="Gender" class="form-control" required style="padding: 0.875rem 1.375rem">
                                                                            <option value="">-Select-</option>
                                                                            <option value="Male" <?php if($row['gender']=='Male') {echo 'selected="selected"';} ?>>Male</option>
                                                                            <option value="Female" <?php if($row['gender']=='Female') {echo 'selected="selected"';} ?>>Female</option>
@@ -596,6 +596,16 @@
                                                                                </select>
                                                                            </div>
                                                                        </div>
+                                                                       <div class="col-sm-12 col-md-3">
+                                                                           <div class="form-group">
+                                                                              <label>Eligible For Debit Note <span style="color:red;">*</span></label>
+                                                                              <select name="elegiblefordebitnote" class="form-control" required style="padding: 0.875rem 1.375rem">
+                                                                                 <option value="">-Select-</option>
+                                                                                 <option value="Yes" <?php if($row['eligible_for_debit_note']=='Yes') {echo 'selected="selected"';} ?>>Yes</option>
+                                                                                 <option value="No" <?php if($row['eligible_for_debit_note']=='No') {echo 'selected="selected"';} ?>>No</option>
+                                                                              </select>
+                                                                           </div>
+                                                                        </div>
                                                                        <?php
                                                                    }            
                                                                    ?>

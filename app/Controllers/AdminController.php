@@ -264,6 +264,8 @@ class AdminController extends BaseController
         $data['allmessagerequest'] = $this->db->table('asitek_bill_register')->where('Vendor_Id', $emp_id)->where('Vendor_Comment!=', '')->countAllResults(); 
         
         $data['recentchatrequest'] = $this->db->query("SELECT asitek_bill_register.compeny_id, asitek_bill_register.Bill_No, asitek_bill_register.Vendor_Comment, asitek_compeny.name as companyname FROM `asitek_bill_register` JOIN asitek_compeny on asitek_bill_register.compeny_id = asitek_compeny.id WHERE asitek_bill_register.Vendor_Id='$emp_id' AND Vendor_Comment!='';")->getResultArray();
+
+        $data['debitnote'] = $this->db->query("SELECT asitek_bill_register.id, asitek_bill_register.compeny_id, asitek_bill_register.Bill_No, asitek_bill_register.Send_Vendor_Note_Image, asitek_bill_register.Send_Note_Vendor_Remark, asitek_compeny.name as companyname FROM `asitek_bill_register` JOIN asitek_compeny on asitek_bill_register.compeny_id = asitek_compeny.id WHERE asitek_bill_register.Vendor_Id='$emp_id' AND asitek_bill_register.Send_Note_Vendor_Status=1;")->getResultArray();
         
         return view('vendor-dashboard', $data);
         // all_recived_bill_list Count End

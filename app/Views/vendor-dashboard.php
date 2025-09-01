@@ -156,23 +156,33 @@ $DepartmentModelObj = new DepartmentModel();
                         <!--Graph Card-->
                         <div class="bg-white border-transparent rounded-lg shadow-xl">
                             <div class="bg-gradient-to-b from-gray-300 to-gray-100 uppercase text-gray-800 border-b-2 border-gray-300 rounded-tl-lg rounded-tr-lg p-2">
-                                <h5 class="font-bold uppercase text-gray-600">Recent Comment on Bill</h5>
+                                <h5 class="font-bold uppercase text-gray-600">Debit Note</h5>
                             </div>
                             <div class="p-5">
+                                <?php
+                                if(session()->has("debitnoteupdate"))
+                                {   
+                                    if(session("debitnoteupdate")==1)   
+                                    {  
+                                            echo "<div class='alert alert-success' role='alert' style='color:white;background:green;width:100%;padding:5px 10px;'>Debit Note Updated</div>";
+                                    }
+                                } ?>
                                 <table class="border-separate border-spacing-2 w-full p-1 text-gray-700 table-auto hover:table-auto">
                                     <thead>
                                         <tr>
                                             <th class="border border-slate-300 p-2">Sl No</th>
                                             <th class="border border-slate-300 p-2"><b>Company Name</b></th>
                                             <th class="border border-slate-300 p-2"><b>Bill No.</b></th>
-                                            <th class="border border-slate-300 p-2"><b>Comment</b></th>
+                                            <th class="border border-slate-300 p-2"><b>Image</b></th>
+                                            <th class="border border-slate-300 p-2"><b>Remark</b></th>
+                                            <th class="border border-slate-300 p-2"><b>Action</b></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     <?php 
-                                    if (!empty($users) && is_array($users)): 
+                                    if (!empty($debitnote) && is_array($debitnote)): 
                                         $i=0;
-                                        foreach ($users as $row): 
+                                        foreach ($debitnote as $row): 
                                             $i=$i+0;
                                             if(isset($_GET['page']))
                                             {
@@ -187,14 +197,57 @@ $DepartmentModelObj = new DepartmentModel();
                                                 <td class="border border-slate-300 p-2"><?php echo $ii; ?></td>
                                                 <td class="border border-slate-300 p-2"><?php echo $row['companyname'];?></td>
                                                 <td class="border border-slate-300 p-2"><?php echo $row['Bill_No'];?></td>
-                                                <td class="border border-slate-300 p-2"><?php echo $row['Vendor_Comment'];?></td>
+                                                <td class="border border-slate-300 p-2"><?php 
+                                                    if(!empty($row['Send_Vendor_Note_Image'])){ ?>
+                                                    <a href="<?php echo base_url('public/vendors/PicUpload/'.$row['Send_Vendor_Note_Image']);?>" target="_blank"><?php if(!empty($row['Send_Vendor_Note_Image'])) { ?>link<?php } ?></a>
+                                                    <?php } ?>
+                                                </td>
+                                                <td class="border border-slate-300 p-2"><?php echo $row['Send_Note_Vendor_Remark'];?></td>
+                                                <td class="border border-slate-300 p-2">
+                                                    <button class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button" data-modal-toggle="authentication-modal<?php echo $row['id'];?>">
+                                                        <i class="fas fa-plus fa-inverse"></i>
+                                                    </button>
+                                                </td>
                                             </tr> 
+                                            <div id="authentication-modal<?php echo $row['id'];?>" aria-hidden="true" class="hidden overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center">
+                                                <div class="relative p-4 w-full max-w-md max-h-full">
+                                                    <!-- Modal content -->
+                                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                        <!-- Modal header -->
+                                                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                                                Add Comment
+                                                            </h3>
+                                                            <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="authentication-modal<?php echo $row['id'];?>">
+                                                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                                                </svg>
+                                                                <span class="sr-only">Close modal</span>
+                                                            </button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <div class="p-4 md:p-5">
+                                                            <form class="space-y-4" action="<?php echo site_url('/update-bill-debit-note-by-vendor'); ?>" method="post" enctype="multipart/form-data">
+                                                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                                                <div>
+                                                                    <label for="billpic" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bill Pic<span style="color:red;">*</span></label>
+                                                                    <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="file" name="E_Image"  id="billpic">
+                                                                </div> 
+                                                                <div>
+                                                                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Comment</label>
+                                                                    <textarea id="message" name="yourcomment" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
+                                                                </div>
+                                                                <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-2">Send Messages</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <?php 
                                             $i=$i+1;
                                             ?>
                                         <?php endforeach; ?>
-                                    <!-- Pagination links -->
-                                        <?= $pager->links() ?>
+                                    
                                     <?php else: ?>
                                         <p></p>
                                     <?php endif; ?>        

@@ -251,7 +251,8 @@ class EmployeeController extends BaseController
             'role' => $this->request->getVar('role'),
             'unit_id' => $this->request->getVar('unit_id'),  
             'department'  => $this->request->getVar('department'),
-            'emp_u_id' => $this->request->getVar('Emp_id_no')
+            'emp_u_id' => $this->request->getVar('Emp_id_no'),
+            'eligible_for_debit_note' => $this->request->getVar('elegiblefordebitnote')
         ];
           
         $daga = [ 
@@ -284,7 +285,7 @@ class EmployeeController extends BaseController
         $Roll_id = $result['Roll_id'];
         $EmployeeModelobj = new EmployeeModel();
         $page = $this->request->getVar('page') ?? 1;
-        $perPage = 20;
+        $perPage = 50;
         //$users = $CompenyModelobj->paginate($perPage);
         $startSerial = ($page - 1) * $perPage + 1;
         if($Roll_id==0)

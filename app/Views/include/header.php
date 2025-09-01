@@ -242,10 +242,17 @@ else
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-links" href="<?php echo base_url('/index.php/all_erpStystem_list');?>">
-                                        <i class="mdi mdi-arrow-down-bold"></i>
+                                    <a href="#" class="nav-links">
+                                        <i class="mdi mdi-call-received"></i>
                                         <span class="menu-title">Bill Entry</span>
+                                        <i class="menu-arrow"></i>
                                     </a>
+                                    <div class="submenu submenu2">
+                                        <ul>
+                                            <li class="nav-item"><a class="nav-link" href="<?php echo base_url('/index.php/all_erpStystem_list');?>">Bill Entry</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="<?php echo base_url('/index.php/debit-note');?>">Add Debit Note</a></li>
+                                        </ul>
+                                    </div>
                                 </li>
                                 <li class="nav-item">
                                     <a href="#" class="nav-links">
@@ -257,7 +264,8 @@ else
                                         <ul>
                                             <li class="nav-item"><a class="nav-link" href="<?php echo base_url('/index.php/all_recived_bill_list');?>">All Recived Bill</a></li>
                                             <li class="nav-item"><a class="nav-link" href="<?php echo base_url('/index.php/view_complete_bill_list');?>">View Complete  Bill</a></li>
-                                            
+                                            <li class="nav-item"><a class="nav-link" href="<?php echo base_url('/index.php/debit-note-account');?>">View Debit Note by Manager</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="<?php echo base_url('/index.php/debit-note-vendor');?>">View Debit Note by Account</a></li>
                                         </ul>
                                     </div>
                                 </li>

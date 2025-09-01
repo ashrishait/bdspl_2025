@@ -7609,4 +7609,760 @@ public function CheckUp_RecivedBill()
         return redirect()->to('/add-bill-vendor')->with('success', 'Bill updated successfully.');
     }
 
+
+
+    //DEBIT NOTE
+    public function debitnote()
+    {
+        $session = \Config\Services::session();
+        $result = $session->get();
+        $BillRegister = new BillRegisterModel();
+        $page = $this->request->getVar('page') ?? 1;
+        $perPage = 50;
+        $startSerial = ($page - 1) * $perPage + 1;
+        $Roll_id = $session->get("Roll_id");
+        $emp_id = $session->get("emp_id");
+        $company_id = $session->get("compeny_id");
+    
+        $Unit_Id = $this->request->getVar('Unit_Id') ?? "";
+        $Vendor_Id = $this->request->getVar('Vendor_Id') ?? "";
+        $assignedto = $this->request->getVar('assignedto') ?? "";
+        $SendBy = $this->request->getVar('SendBy') ?? "";
+        $Status = $this->request->getVar('Satus') ?? "";
+        $session->set(["Unit_Id" => $Unit_Id,"Vendor_Id" => $Vendor_Id,"assignedto" => $assignedto,"SendBy" => $SendBy,"Status" => $Status]);
+        // Date handling
+        $session_start_date = $session->get('Sesssion_start_Date') ?? '2019-05-06';
+        $session_end_date = $session->get('Sesssion_end_Date') ?? '9019-05-06';
+        $date_format = '%Y-%m-%d';
+    
+        // Setting default values for session dates if not set
+        $session_start_date_new = !empty($result['Session_start_Date']) ? $result['Session_start_Date'] : $session_start_date;
+        $session_end_date_new = !empty($result['Session_end_Date']) ? $result['Session_end_Date'] : $session_end_date;
+    
+        // Admin Roll
+        if ($Roll_id == 1||$Roll_id == 2) {
+            $users = $BillRegister->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")
+                ->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')
+                ->where('asitek_bill_register.compeny_id', $company_id);
+    
+            if (!empty($Unit_Id)) {
+                $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
+            }
+    
+            if (!empty($Vendor_Id)) {
+                $users->where('asitek_bill_register.Vendor_Id', $Vendor_Id);
+            }
+    
+            if (!empty($assignedto)) {
+                $users->where('asitek_bill_register.Department_Emp_Id', $assignedto);
+            }
+    
+            if (!empty($SendBy)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId_By_MasterId', $SendBy);
+            }
+    
+            if (!empty($Status) && $Status !== "All") {
+                $users->where('asitek_bill_register.ERP_Status', $Status);
+            }
+    
+            $users->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$session_start_date_new', '$date_format') AND STR_TO_DATE('$session_end_date_new', '$date_format')")
+                ->orderBy('asitek_bill_register.id', 'desc');
+    
+            $users = $users->paginate($perPage);
+        } else {
+            // Non-admin case
+            $users = $BillRegister->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")
+                ->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')
+                ->where('asitek_bill_register.compeny_id', $company_id)->where('asitek_bill_register.Mapping_ERP_EmpId', $emp_id);
+    
+            if (!empty($Unit_Id)) {
+                $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
+            }
+    
+            if (!empty($Vendor_Id)) {
+                $users->where('asitek_bill_register.Vendor_Id', $Vendor_Id);
+            }
+    
+            if (!empty($assignedto)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId', $assignedto);
+            }
+    
+            if (!empty($SendBy)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId_By_MasterId', $SendBy);
+            }
+    
+            if (!empty($Status) && $Status !== "All") {
+                $users->where('asitek_bill_register.ERP_Status', $Status);
+            }
+    
+            $users->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$session_start_date_new', '$date_format') AND STR_TO_DATE('$session_end_date_new', '$date_format')")
+                ->orderBy('asitek_bill_register.id', 'desc');
+    
+            $users = $users->paginate($perPage);
+        }
+    
+        $departmentModel = new DepartmentModel();
+        $dax9 = $departmentModel->where("compeny_id", $company_id)->findAll();
+    
+        $employeeModel = new EmployeeModel();
+        $builderrecommended = $this->db->table("asitek_company_vendor");
+        $builderrecommended->select('asitek_company_vendor.Vendor_Id, asitek_party_user.id, asitek_party_user.GST_No, asitek_party_user.Name');
+        $builderrecommended->join('asitek_party_user', 'asitek_party_user.id = asitek_company_vendor.Vendor_Id');
+        $builderrecommended->where('asitek_company_vendor.Company_Id', $company_id);
+        $builderrecommended->groupBy('asitek_company_vendor.Vendor_Id');
+        $builderrecommended->orderBy('asitek_party_user.Name', 'ASC');
+        $data_recommended = $builderrecommended->get()->getResult();
+    
+        $unitModel = new UnitModel();
+        $dax15 = $unitModel->where("compeny_id", $company_id)->findAll();
+    
+        $departmentModel = new DepartmentModel();
+        $dax16 = $departmentModel->where("compeny_id", $company_id)->findAll();
+    
+        $data = [
+            'users' => $users,
+            'pager' => $BillRegister->pager,
+            'startSerial' => $startSerial,
+            'nextPage' => $page + 1,
+            'previousPage' => ($page > 1) ? $page - 1 : null,
+            'dax9' => $dax9,
+            'dax14' => $data_recommended,
+            'dax15' => $dax15,
+            'dax16' => $dax16,
+        ];
+    
+        return view("debit-note", $data);
+    }
+
+
+    public function debitnotetomanager()
+    {
+        $session = \Config\Services::session();
+        $email = \Config\Services::email();
+        $result = $session->get();
+        $model = new BillRegisterModel();
+        $vendormodel = new PartyUserModel();
+        $companymodel = new CompenyModel();
+        $id = $this->request->getVar("id");
+        $action = $this->request->getVar("action");
+        $validation = \Config\Services::validation();
+        $Mapping_Acount_By_MasterId = $result["emp_id"];
+        $file = $this->request->getFile("E_Image");
+        if ($file != "") {
+            $validation->setRules([
+                "E_Image" =>"uploaded[E_Image]|ext_in[E_Image,jpg,JPG,png,PNG,jpeg,JPEG,pdf]",
+            ]);
+            if (!$validation->withRequest($this->request)->run()) {
+                $data["error"] = $validation->getErrors();
+                $this->index();
+                return view("add_bill_register");
+            } else {
+                $imageName = $file->getRandomName();
+                $file->move("public/vendors/PicUpload", $imageName);
+            }
+        } else {
+            $imageName = "";
+        }
+        $data = [
+            "Send_Note_To" => $this->request->getVar("Mapping_Acount_EmpId"),
+            "Send_Note_By" => $Mapping_Acount_By_MasterId,
+            "Send_Note_Image" => $imageName,
+            "Send_Note_Remark" => $this->request->getVar("ERP_Remark"),
+            "Send_Note_Status" => 1,
+        ];
+
+        $billid = $this->db->query("SELECT uid from asitek_bill_register WHERE id='$id'")->getResult(); // Adjust the column name based on your database structure
+
+        if (isset($billid) && !empty($data)) {
+
+            $model->where('id', $id)->set($data)->update();
+            return redirect("debit-note");
+        }
+        else{
+            $session->setFlashdata("sendtoaccount", 2);
+            return redirect("debit-note");
+        }    
+    }
+
+
+    public function debitnotesendtomanager()
+    {
+        $session = \Config\Services::session();
+        $email = \Config\Services::email();
+        $result = $session->get();
+        $Mapping_Acount_By_MasterId = $result["emp_id"];
+        $model = new BillRegisterModel();
+        $vendormodel = new PartyUserModel();
+        $companymodel = new CompenyModel();
+        $MasterActionmadelObj = new MasterActionModel();
+        $MasterActionUploadModelObj = new MasterActionUploadModel();
+        $request = $this->request;
+        $companyid = $request->getPost("companyid");
+        $uid = $request->getPost("billid");
+        $mappingacountempid = $request->getPost("mappingacountempid");
+        $erpremark = $request->getPost("erpremark");
+        $E_Image = $request->getFile("E_Image");
+        $billid = $this->db->query("SELECT id from asitek_bill_register WHERE compeny_id='$companyid' AND uid = '$uid'")->getResult();
+        if (isset($billid) && !empty($billid)) {
+            $billidvalue = $billid[0]->id;
+            if (!empty($E_Image)) {
+                // Handle file upload
+                if ($E_Image->isValid() && !$E_Image->hasMoved()) {
+                    $newName = $E_Image->getRandomName();
+                    $E_Image->move("public/vendors/PicUpload", $newName);
+                } else {
+                    $data = [
+                        "status" => "error",
+                        "message" => "Image is not uploaded",
+                    ];
+
+                    return $this->response->setJSON($data);
+                }
+            } else {
+                $newName = "";
+            }
+
+            $data = [
+                "Send_Note_To" => $mappingacountempid,
+                "Send_Note_By" => $Mapping_Acount_By_MasterId,
+                "Send_Note_Image" => $newName,
+                "Send_Note_Remark" => $erpremark,
+                "Send_Note_Status" => 1,
+            ];
+
+            if ($model->where("id", $billidvalue)->where("compeny_id", $companyid)->set($data)->update()) {
+                
+                $data = [
+                    "status" => "success",
+                    "message" => "Debit note added and send to account",
+                ];
+
+                return $this->response->setJSON($data);
+            }
+        } else {
+            $data = [
+                "status" => "success",
+                "message" => "Either bill is not accepted or it is sent to bill receiving",
+            ];
+
+            return $this->response->setJSON($data);
+        }
+    }
+
+    //DEBIT NOTE MANAGER
+    public function debitnoteaccount()
+    {
+        $session = \Config\Services::session();
+        $result = $session->get();
+        $BillRegister = new BillRegisterModel();
+        $page = $this->request->getVar('page') ?? 1;
+        $perPage = 50;
+        $startSerial = ($page - 1) * $perPage + 1;
+        $Roll_id = $session->get("Roll_id");
+        $emp_id = $session->get("emp_id");
+        $company_id = $session->get("compeny_id");
+    
+        $Unit_Id = $this->request->getVar('Unit_Id') ?? "";
+        $Vendor_Id = $this->request->getVar('Vendor_Id') ?? "";
+        $assignedto = $this->request->getVar('assignedto') ?? "";
+        $SendBy = $this->request->getVar('SendBy') ?? "";
+        $Status = $this->request->getVar('Satus') ?? "";
+         $session->set(["Unit_Id" => $Unit_Id,"Vendor_Id" => $Vendor_Id,"assignedto" => $assignedto,"SendBy" => $SendBy,"Status" => $Status]);
+        // Date handling
+        $session_start_date = $session->get('Sesssion_start_Date') ?? '2019-05-06';
+        $session_end_date = $session->get('Sesssion_end_Date') ?? '9019-05-06';
+        $date_format = '%Y-%m-%d';
+    
+        // Setting default values for session dates if not set
+        $session_start_date_new = !empty($result['Session_start_Date']) ? $result['Session_start_Date'] : $session_start_date;
+        $session_end_date_new = !empty($result['Session_end_Date']) ? $result['Session_end_Date'] : $session_end_date;
+    
+        // Admin Roll
+        if ($Roll_id == 1||$Roll_id == 2) {
+            $users = $BillRegister->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")
+                ->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')
+                ->where('asitek_bill_register.compeny_id', $company_id)
+                ->where('asitek_bill_register.Send_Note_Status', 1);
+    
+            if (!empty($Unit_Id)) {
+                $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
+            }
+    
+            if (!empty($Vendor_Id)) {
+                $users->where('asitek_bill_register.Vendor_Id', $Vendor_Id);
+            }
+    
+            if (!empty($assignedto)) {
+                $users->where('asitek_bill_register.Department_Emp_Id', $assignedto);
+            }
+    
+            if (!empty($SendBy)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId_By_MasterId', $SendBy);
+            }
+    
+            if (!empty($Status) && $Status !== "All") {
+                $users->where('asitek_bill_register.ERP_Status', $Status);
+            }
+    
+            $users->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$session_start_date_new', '$date_format') AND STR_TO_DATE('$session_end_date_new', '$date_format')")
+                ->orderBy('asitek_bill_register.id', 'desc');
+    
+            $users = $users->paginate($perPage);
+        } else {
+            // Non-admin case
+            $users = $BillRegister->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")
+                ->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')
+                ->where('asitek_bill_register.compeny_id', $company_id)
+                ->where('asitek_bill_register.Mapping_ERP_EmpId', $emp_id)
+                ->where('asitek_bill_register.Send_Note_Status', 1);
+    
+            if (!empty($Unit_Id)) {
+                $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
+            }
+    
+            if (!empty($Vendor_Id)) {
+                $users->where('asitek_bill_register.Vendor_Id', $Vendor_Id);
+            }
+    
+            if (!empty($assignedto)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId', $assignedto);
+            }
+    
+            if (!empty($SendBy)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId_By_MasterId', $SendBy);
+            }
+    
+            if (!empty($Status) && $Status !== "All") {
+                $users->where('asitek_bill_register.ERP_Status', $Status);
+            }
+    
+            $users->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$session_start_date_new', '$date_format') AND STR_TO_DATE('$session_end_date_new', '$date_format')")
+                ->orderBy('asitek_bill_register.id', 'desc');
+    
+            $users = $users->paginate($perPage);
+        }
+    
+        $departmentModel = new DepartmentModel();
+        $dax9 = $departmentModel->where("compeny_id", $company_id)->findAll();
+    
+        $employeeModel = new EmployeeModel();
+        $builderrecommended = $this->db->table("asitek_company_vendor");
+        $builderrecommended->select('asitek_company_vendor.Vendor_Id, asitek_party_user.id, asitek_party_user.GST_No, asitek_party_user.Name');
+        $builderrecommended->join('asitek_party_user', 'asitek_party_user.id = asitek_company_vendor.Vendor_Id');
+        $builderrecommended->where('asitek_company_vendor.Company_Id', $company_id);
+        $builderrecommended->groupBy('asitek_company_vendor.Vendor_Id');
+        $builderrecommended->orderBy('asitek_party_user.Name', 'ASC');
+        $data_recommended = $builderrecommended->get()->getResult();
+    
+        $unitModel = new UnitModel();
+        $dax15 = $unitModel->where("compeny_id", $company_id)->findAll();
+    
+        $departmentModel = new DepartmentModel();
+        $dax16 = $departmentModel->where("compeny_id", $company_id)->findAll();
+    
+        $data = [
+            'users' => $users,
+            'pager' => $BillRegister->pager,
+            'startSerial' => $startSerial,
+            'nextPage' => $page + 1,
+            'previousPage' => ($page > 1) ? $page - 1 : null,
+            'dax9' => $dax9,
+            'dax14' => $data_recommended,
+            'dax15' => $dax15,
+            'dax16' => $dax16,
+        ];
+    
+        return view("debit-note-account", $data);
+    }
+
+
+    public function debitnotetoaccount()
+    {
+        $session = \Config\Services::session();
+        $email = \Config\Services::email();
+        $result = $session->get();
+        $model = new BillRegisterModel();
+        $vendormodel = new PartyUserModel();
+        $companymodel = new CompenyModel();
+        $Mapping_Acount_EmpId = $this->request->getVar("Mapping_Acount_EmpId");
+        $id = $this->request->getVar("id");
+        $action = $this->request->getVar("action");
+        $validation = \Config\Services::validation();
+        $Mapping_Acount_By_MasterId = $result["emp_id"];
+        $file = $this->request->getFile("E_Image");
+        if ($file != "") {
+            $validation->setRules([
+                "E_Image" =>"uploaded[E_Image]|ext_in[E_Image,jpg,JPG,png,PNG,jpeg,JPEG,pdf]",
+            ]);
+            if (!$validation->withRequest($this->request)->run()) {
+                $data["error"] = $validation->getErrors();
+                $this->index();
+                return view("add_bill_register");
+            } else {
+                $imageName = $file->getRandomName();
+                $file->move("public/vendors/PicUpload", $imageName);
+            }
+        } else {
+            $imageName = "";
+        }
+        $data = [
+            "Send_Note_To_Account_By" => $Mapping_Acount_EmpId,
+            "Send_Account_Note_Image" => $imageName,
+            "Send_Note_Account_Remark" => $this->request->getVar("ERP_Remark"),
+            "Send_Note_Account_Status" => 1,
+        ];
+
+        $billid = $this->db->query("SELECT uid from asitek_bill_register WHERE id='$id'")->getResult(); // Adjust the column name based on your database structure
+
+        if (isset($billid) && !empty($data)) {
+
+            $model->where('id', $id)->set($data)->update();
+            return redirect("debit-note-account");
+        }
+        else{
+            $session->setFlashdata("sendtoaccount", 2);
+            return redirect("debit-note-account");
+        }    
+    }
+
+
+    public function debitnotesendtoaccount()
+    {
+        $session = \Config\Services::session();
+        $email = \Config\Services::email();
+        $result = $session->get();
+        $Mapping_Acount_By_MasterId = $result["emp_id"];
+        $model = new BillRegisterModel();
+        $vendormodel = new PartyUserModel();
+        $companymodel = new CompenyModel();
+        $MasterActionmadelObj = new MasterActionModel();
+        $MasterActionUploadModelObj = new MasterActionUploadModel();
+        $request = $this->request;
+        $companyid = $request->getPost("companyid");
+        $Mapping_Acount_EmpId = $request->getPost("Mapping_Acount_EmpId");
+        $uid = $request->getPost("billid");
+        $erpremark = $request->getPost("erpremark");
+        $E_Image = $request->getFile("E_Image");
+        $billid = $this->db->query("SELECT id from asitek_bill_register WHERE compeny_id='$companyid' AND uid = '$uid'")->getResult();
+        if (isset($billid) && !empty($billid)) {
+            $billidvalue = $billid[0]->id;
+            if (!empty($E_Image)) {
+                // Handle file upload
+                if ($E_Image->isValid() && !$E_Image->hasMoved()) {
+                    $newName = $E_Image->getRandomName();
+                    $E_Image->move("public/vendors/PicUpload", $newName);
+                } else {
+                    $data = [
+                        "status" => "error",
+                        "message" => "Image is not uploaded",
+                    ];
+
+                    return $this->response->setJSON($data);
+                }
+            } else {
+                $newName = "";
+            }
+
+            $data = [
+                "Send_Note_To_Account_By" => $Mapping_Acount_EmpId,
+                "Send_Account_Note_Image" => $newName,
+                "Send_Note_Account_Remark" => $erpremark,
+                "Send_Note_Account_Status" => 1,
+            ];
+
+            if ($model->where("id", $billidvalue)->where("compeny_id", $companyid)->set($data)->update()) {
+                
+                $data = [
+                    "status" => "success",
+                    "message" => "Debit note added and send to account",
+                ];
+
+                return $this->response->setJSON($data);
+            }
+        } else {
+            $data = [
+                "status" => "success",
+                "message" => "Either bill is not accepted or it is sent to bill receiving",
+            ];
+
+            return $this->response->setJSON($data);
+        }
+    }
+
+
+    //DEBIT NOTE ACCOUNT
+    public function debitnotevendor()
+    {
+        $session = \Config\Services::session();
+        $result = $session->get();
+        $BillRegister = new BillRegisterModel();
+        $page = $this->request->getVar('page') ?? 1;
+        $perPage = 50;
+        $startSerial = ($page - 1) * $perPage + 1;
+        $Roll_id = $session->get("Roll_id");
+        $emp_id = $session->get("emp_id");
+        $company_id = $session->get("compeny_id");
+    
+        $Unit_Id = $this->request->getVar('Unit_Id') ?? "";
+        $Vendor_Id = $this->request->getVar('Vendor_Id') ?? "";
+        $assignedto = $this->request->getVar('assignedto') ?? "";
+        $SendBy = $this->request->getVar('SendBy') ?? "";
+        $Status = $this->request->getVar('Satus') ?? "";
+         $session->set(["Unit_Id" => $Unit_Id,"Vendor_Id" => $Vendor_Id,"assignedto" => $assignedto,"SendBy" => $SendBy,"Status" => $Status]);
+        // Date handling
+        $session_start_date = $session->get('Sesssion_start_Date') ?? '2019-05-06';
+        $session_end_date = $session->get('Sesssion_end_Date') ?? '9019-05-06';
+        $date_format = '%Y-%m-%d';
+    
+        // Setting default values for session dates if not set
+        $session_start_date_new = !empty($result['Session_start_Date']) ? $result['Session_start_Date'] : $session_start_date;
+        $session_end_date_new = !empty($result['Session_end_Date']) ? $result['Session_end_Date'] : $session_end_date;
+    
+        // Admin Roll
+        if ($Roll_id == 1||$Roll_id == 2) {
+            $users = $BillRegister->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")
+                ->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')
+                ->where('asitek_bill_register.compeny_id', $company_id)
+                ->where('asitek_bill_register.Send_Note_Status', 1);
+    
+            if (!empty($Unit_Id)) {
+                $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
+            }
+    
+            if (!empty($Vendor_Id)) {
+                $users->where('asitek_bill_register.Vendor_Id', $Vendor_Id);
+            }
+    
+            if (!empty($assignedto)) {
+                $users->where('asitek_bill_register.Department_Emp_Id', $assignedto);
+            }
+    
+            if (!empty($SendBy)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId_By_MasterId', $SendBy);
+            }
+    
+            if (!empty($Status) && $Status !== "All") {
+                $users->where('asitek_bill_register.ERP_Status', $Status);
+            }
+    
+            $users->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$session_start_date_new', '$date_format') AND STR_TO_DATE('$session_end_date_new', '$date_format')")
+                ->orderBy('asitek_bill_register.id', 'desc');
+    
+            $users = $users->paginate($perPage);
+        } else {
+            // Non-admin case
+            $users = $BillRegister->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")
+                ->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')
+                ->where('asitek_bill_register.compeny_id', $company_id)
+                ->where('asitek_bill_register.Mapping_ERP_EmpId', $emp_id)
+                ->where('asitek_bill_register.Send_Note_Status', 1)
+                ->where('asitek_bill_register.Send_Note_Account_Status', 1);
+    
+            if (!empty($Unit_Id)) {
+                $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
+            }
+    
+            if (!empty($Vendor_Id)) {
+                $users->where('asitek_bill_register.Vendor_Id', $Vendor_Id);
+            }
+    
+            if (!empty($assignedto)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId', $assignedto);
+            }
+    
+            if (!empty($SendBy)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId_By_MasterId', $SendBy);
+            }
+    
+            if (!empty($Status) && $Status !== "All") {
+                $users->where('asitek_bill_register.ERP_Status', $Status);
+            }
+    
+            $users->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$session_start_date_new', '$date_format') AND STR_TO_DATE('$session_end_date_new', '$date_format')")
+                ->orderBy('asitek_bill_register.id', 'desc');
+    
+            $users = $users->paginate($perPage);
+        }
+    
+        $departmentModel = new DepartmentModel();
+        $dax9 = $departmentModel->where("compeny_id", $company_id)->findAll();
+    
+        $employeeModel = new EmployeeModel();
+        $builderrecommended = $this->db->table("asitek_company_vendor");
+        $builderrecommended->select('asitek_company_vendor.Vendor_Id, asitek_party_user.id, asitek_party_user.GST_No, asitek_party_user.Name');
+        $builderrecommended->join('asitek_party_user', 'asitek_party_user.id = asitek_company_vendor.Vendor_Id');
+        $builderrecommended->where('asitek_company_vendor.Company_Id', $company_id);
+        $builderrecommended->groupBy('asitek_company_vendor.Vendor_Id');
+        $builderrecommended->orderBy('asitek_party_user.Name', 'ASC');
+        $data_recommended = $builderrecommended->get()->getResult();
+    
+        $unitModel = new UnitModel();
+        $dax15 = $unitModel->where("compeny_id", $company_id)->findAll();
+    
+        $departmentModel = new DepartmentModel();
+        $dax16 = $departmentModel->where("compeny_id", $company_id)->findAll();
+    
+        $data = [
+            'users' => $users,
+            'pager' => $BillRegister->pager,
+            'startSerial' => $startSerial,
+            'nextPage' => $page + 1,
+            'previousPage' => ($page > 1) ? $page - 1 : null,
+            'dax9' => $dax9,
+            'dax14' => $data_recommended,
+            'dax15' => $dax15,
+            'dax16' => $dax16,
+        ];
+    
+        return view("debit-note-to-vendor", $data);
+    }
+
+
+    public function debitnotetovendor()
+    {
+        $session = \Config\Services::session();
+        $email = \Config\Services::email();
+        $result = $session->get();
+        $model = new BillRegisterModel();
+        $vendormodel = new PartyUserModel();
+        $companymodel = new CompenyModel();
+        $id = $this->request->getVar("id");
+        $action = $this->request->getVar("action");
+        $validation = \Config\Services::validation();
+        $Mapping_Acount_By_MasterId = $result["emp_id"];
+        $file = $this->request->getFile("E_Image");
+        if ($file != "") {
+            $validation->setRules([
+                "E_Image" =>"uploaded[E_Image]|ext_in[E_Image,jpg,JPG,png,PNG,jpeg,JPEG,pdf]",
+            ]);
+            if (!$validation->withRequest($this->request)->run()) {
+                $data["error"] = $validation->getErrors();
+                $this->index();
+                return view("add_bill_register");
+            } else {
+                $imageName = $file->getRandomName();
+                $file->move("public/vendors/PicUpload", $imageName);
+            }
+        } else {
+            $imageName = "";
+        }
+        $data = [
+            "Send_Vendor_Note_Image" => $imageName,
+            "Send_Note_Vendor_Remark" => $this->request->getVar("ERP_Remark"),
+            "Send_Note_Vendor_Status" => 1,
+        ];
+
+        $billid = $this->db->query("SELECT uid from asitek_bill_register WHERE id='$id'")->getResult(); // Adjust the column name based on your database structure
+
+        if (isset($billid) && !empty($data)) {
+
+            $model->where('id', $id)->set($data)->update();
+            return redirect("debit-note-vendor");
+        }
+        else{
+            $session->setFlashdata("sendtoaccount", 2);
+            return redirect("debit-note-vendor");
+        }    
+    }
+
+
+    public function debitnotesendtovendor()
+    {
+        $session = \Config\Services::session();
+        $email = \Config\Services::email();
+        $result = $session->get();
+        $Mapping_Acount_By_MasterId = $result["emp_id"];
+        $model = new BillRegisterModel();
+        $vendormodel = new PartyUserModel();
+        $companymodel = new CompenyModel();
+        $MasterActionmadelObj = new MasterActionModel();
+        $MasterActionUploadModelObj = new MasterActionUploadModel();
+        $request = $this->request;
+        $companyid = $request->getPost("companyid");
+        $uid = $request->getPost("billid");
+        $erpremark = $request->getPost("erpremark");
+        $E_Image = $request->getFile("E_Image");
+        $billid = $this->db->query("SELECT id from asitek_bill_register WHERE compeny_id='$companyid' AND uid = '$uid'")->getResult();
+        if (isset($billid) && !empty($billid)) {
+            $billidvalue = $billid[0]->id;
+            if (!empty($E_Image)) {
+                // Handle file upload
+                if ($E_Image->isValid() && !$E_Image->hasMoved()) {
+                    $newName = $E_Image->getRandomName();
+                    $E_Image->move("public/vendors/PicUpload", $newName);
+                } else {
+                    $data = [
+                        "status" => "error",
+                        "message" => "Image is not uploaded",
+                    ];
+
+                    return $this->response->setJSON($data);
+                }
+            } else {
+                $newName = "";
+            }
+
+            $data = [
+                "Send_Vendor_Note_Image" => $newName,
+                "Send_Note_Vendor_Remark" => $erpremark,
+                "Send_Note_Vendor_Status" => 1,
+            ];
+
+            if ($model->where("id", $billidvalue)->where("compeny_id", $companyid)->set($data)->update()) {
+                
+                $data = [
+                    "status" => "success",
+                    "message" => "Debit note added and send to account",
+                ];
+
+                return $this->response->setJSON($data);
+            }
+        } else {
+            $data = [
+                "status" => "success",
+                "message" => "Either bill is not accepted or it is sent to bill receiving",
+            ];
+
+            return $this->response->setJSON($data);
+        }
+    }
+
+
+    public function update_bill_debit_note_by_vendor()
+    {
+        $validation = \Config\Services::validation();
+        $file = $this->request->getFile("E_Image");
+        if ($file != "") {
+            $validation->setRules([
+                "E_Image" =>
+                    "uploaded[E_Image]|ext_in[E_Image,jpg,JPG,png,PNG,jpeg,JPEG,pdf]",
+            ]); 
+            if (!$validation->withRequest($this->request)->run()) {
+                $data["error"] = $validation->getErrors();
+                $this->index();
+                return view("all-bill-mapping-vendor-list");
+            } else {
+                $imageName = $file->getRandomName();
+                $file->move("public/vendors/PicUpload", $imageName);
+            }
+        } else {
+            $imageName = "";
+        }
+
+        $data = [
+            "Vendor_Debit_Note_Remark" => $this->request->getVar("yourcomment"),
+            "Vendor_Debit_Note_Update" => $imageName,
+        ];
+        $emp = new BillRegisterModel();
+        if (
+            $emp
+                ->where("id", $this->request->getVar("id"))
+                ->set($data)
+                ->update()
+        ) {
+            $session = \Config\Services::session();
+            $session->setFlashdata("debitnoteupdate", 1);
+            return redirect("vendor-dashboard");
+        }
+    }
 }

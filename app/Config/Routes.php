@@ -258,6 +258,7 @@ $routes->get('/add-bill-vendor', 'BillRegisterController::add_bill_vendor',['fil
 $routes->post('/update-bill-vendor-comment', 'BillRegisterController::update_bill_vendor_comment',['filter'=>'authGuard']); 
 $routes->post('/vendor-bill-received', 'BillRegisterController::vendor_bill_received',['filter'=>'authGuard']); 
 $routes->post('/bill-draft-delete', 'BillRegisterController::bill_draft_delete',['filter'=>'authGuard']);
+$routes->post('/update-bill-debit-note-by-vendor', 'BillRegisterController::update_bill_debit_note_by_vendor',['filter'=>'authGuard']); 
 
 $routes->post('/del_bill_register', 'BillRegisterController::bill_register_delete',['filter'=>'authGuard']);
 $routes->post('/update_bill_register', 'BillRegisterController::update_bill_register',['filter'=>'authGuard']);
@@ -333,6 +334,18 @@ $routes->post('/ERPStatus_BillReg', 'BillRegisterController::ERPStatus_BillReg',
 
 $routes->get('/all_erpStystem_list', 'BillRegisterController::all_erpStystem_list',['filter'=>'authGuard']); 
 $routes->get('/all-erpSystem-vendor-list', 'BillRegisterController::all_erpStystem_vendor_list',['filter'=>'authGuard']); 
+
+$routes->get('/debit-note', 'BillRegisterController::debitnote',['filter'=>'authGuard']); 
+$routes->post('/send-debit-note-to-manager', 'BillRegisterController::debitnotetomanager',['filter'=>'authGuard']); 
+$routes->post('/debit-note-send-to-manager', 'BillRegisterController::debitnotesendtomanager',['filter'=>'authGuard']); 
+
+$routes->get('/debit-note-account', 'BillRegisterController::debitnoteaccount',['filter'=>'authGuard']); 
+$routes->post('/send-debit-note-to-account', 'BillRegisterController::debitnotetoaccount',['filter'=>'authGuard']); 
+$routes->post('/debit-note-to-account', 'BillRegisterController::debitnotesendtoaccount',['filter'=>'authGuard']); 
+
+$routes->get('/debit-note-vendor', 'BillRegisterController::debitnotevendor',['filter'=>'authGuard']); 
+$routes->post('/send-debit-note-to-vendor', 'BillRegisterController::debitnotetovendor',['filter'=>'authGuard']); 
+$routes->post('/debit-note-to-vendor', 'BillRegisterController::debitnotesendtovendor',['filter'=>'authGuard']); 
 //-----------------------------  Recived Bill Routes------------------------  
 
 
