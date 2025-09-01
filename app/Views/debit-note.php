@@ -211,7 +211,7 @@ $DepartmentModelObj = new DepartmentModel();
                                         else{
                                             ?>
                                             <button type="button" class="btn btn-success btn-lg float-end me-2" data-bs-toggle="modal" data-bs-target="#sendtobillreceiving">
-                                                Send To Manager
+                                                Add Debit Note
                                             </button>
                                             <?php 
                                         }
@@ -332,7 +332,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                             <div class="modal-dialog modal-lg modal-dialog-centered">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header bg-warning">
-                                                                        <h4 class="modal-title text-white" id="myLargeModalLabel">Send to Account</h4>
+                                                                        <h4 class="modal-title text-white" id="myLargeModalLabel">Add Debit Note</h4>
                                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -377,7 +377,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                                                     </div>  
                                                                                     <div class="col-sm-12 col-md-6">
                                                                                         <div class="form-group">
-                                                                                            <label>Remark</label>
+                                                                                            <label>Amount</label>
                                                                                             <textarea name="ERP_Remark" class="form-control "><?php echo $row['ERP_Remark']; ?></textarea>
                                                                                         </div> 
                                                                                     </div>
@@ -413,7 +413,7 @@ $DepartmentModelObj = new DepartmentModel();
                             <div class="modal-dialog modal-lg modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header bg-success">
-                                        <h4 class="modal-title text-white" id="myLargeModalLabel">Send to account department</h4>
+                                        <h4 class="modal-title text-white" id="myLargeModalLabel">Add Debit Note</h4>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -462,7 +462,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                     </div>  
                                                     <div class="col-sm-12 col-md-6">
                                                         <div class="form-group">
-                                                            <label>Remark</label>
+                                                            <label>Amount</label>
                                                             <textarea name="ERP_Remark" id="erpremark" class="form-control "></textarea>
                                                         </div> 
                                                     </div>
