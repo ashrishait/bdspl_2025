@@ -241,7 +241,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                     <th class="bg-white"><b>Image </b></th>
                                                     <th class="bg-white"><b>Amount </b></th>
                                                     <th class="bg-white"><b>To Account</b></th>
-                                                    <th class="bg-white"><b>Account Image </b></th>
+                                                    <th class="bg-white"><b>Manager Image </b></th>
                                                     <th class="bg-white"><b>Amount</b></th>
                                                     <th class="bg-white"><b>Vendor Image</b></th>
                                                     <th class="bg-white"><b>Vendor Remark </b></th>
@@ -402,7 +402,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                                                     </div>  
                                                                                     <div class="col-sm-12 col-md-6">
                                                                                         <div class="form-group">
-                                                                                            <label>Remark</label>
+                                                                                            <label>Amount</label>
                                                                                             <textarea name="ERP_Remark" class="form-control "><?php echo $row['ERP_Remark']; ?></textarea>
                                                                                         </div> 
                                                                                     </div>
@@ -486,7 +486,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                     </div>  
                                                     <div class="col-sm-12 col-md-6">
                                                         <div class="form-group">
-                                                            <label>Remark</label>
+                                                            <label>Amount</label>
                                                             <textarea name="ERP_Remark" id="erpremark" class="form-control "></textarea>
                                                         </div> 
                                                     </div>
