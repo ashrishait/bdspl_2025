@@ -174,7 +174,7 @@ $DepartmentModelObj = new DepartmentModel();
                                             <th class="border border-slate-300 p-2"><b>Company Name</b></th>
                                             <th class="border border-slate-300 p-2"><b>Bill No.</b></th>
                                             <th class="border border-slate-300 p-2"><b>Image</b></th>
-                                            <th class="border border-slate-300 p-2"><b>Remark</b></th>
+                                            <th class="border border-slate-300 p-2"><b>Amount</b></th>
                                             <th class="border border-slate-300 p-2"><b>Action</b></th>
                                         </tr>
                                     </thead>
