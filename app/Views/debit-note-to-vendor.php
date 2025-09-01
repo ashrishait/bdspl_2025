@@ -244,7 +244,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                     <th class="bg-white"><b>Manager Image </b></th>
                                                     <th class="bg-white"><b>Manager Remark </b></th>
                                                     <th class="bg-white"><b>Account Image </b></th>
-                                                    <th class="bg-white"><b>Account Remark </b></th>
+                                                    <th class="bg-white"><b>Amount</b></th>
                                                     <th class="bg-white"><b>Vendor Image </b></th>
                                                     <th class="bg-white"><b>Vendor Remark </b></th>
                                                     <th class="bg-white"><b>Action </b></th>
@@ -345,12 +345,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                                 <?php } ?>
                                                             </td>
                                                             <td><?php echo $row['Send_Note_Vendor_Remark']; ?></td>
-                                                            <td>
-                                                                <?php 
-                                                                if(!empty($row['Send_Account_Note_Image'])){ ?>
-                                                                <a href="<?php echo base_url('public/vendors/PicUpload/'.$row['Send_Account_Note_Image']);?>" target="_blank"><?php if(!empty($row['Send_Account_Note_Image'])) { ?>link<?php } ?></a>
-                                                                <?php } ?>
-                                                            </td>
+
                                                             <td><?php echo $row['Vendor_Debit_Note_Remark']; ?></td>
                                                             <td>
                                                                 <?php 
@@ -395,7 +390,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                                                     </div>  
                                                                                     <div class="col-sm-12 col-md-6">
                                                                                         <div class="form-group">
-                                                                                            <label>Remark</label>
+                                                                                            <label>Amount</label>
                                                                                             <textarea name="ERP_Remark" class="form-control "><?php echo $row['ERP_Remark']; ?></textarea>
                                                                                         </div> 
                                                                                     </div>
@@ -454,7 +449,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                     </div>  
                                                     <div class="col-sm-12 col-md-6">
                                                         <div class="form-group">
-                                                            <label>Remark</label>
+                                                            <label>Amount</label>
                                                             <textarea name="ERP_Remark" id="erpremark" class="form-control "></textarea>
                                                         </div> 
                                                     </div>

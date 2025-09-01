@@ -242,7 +242,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                     <th class="bg-white"><b>Amount </b></th>
                                                     <th class="bg-white"><b>To Account</b></th>
                                                     <th class="bg-white"><b>Account Image </b></th>
-                                                    <th class="bg-white"><b>Account Remark </b></th>
+                                                    <th class="bg-white"><b>Amount</b></th>
                                                     <th class="bg-white"><b>Vendor Image</b></th>
                                                     <th class="bg-white"><b>Vendor Remark </b></th>
                                                     <th class="bg-white"><b>Action </b></th>
@@ -346,7 +346,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                             <td>
                                                                 <?php
                                                                 if($row['Send_Note_Account_Status']==1){
-                                                                    echo "Approved Bu Manager";
+                                                                    echo "Approved By Manager";
                                                                 }
                                                                 else{ ?>
                                                                     <span class="span text-warning" data-bs-toggle="modal" data-bs-target="#bd-example-modal-lg-mappBill-<?php echo $row['id']; ?>" title="Accepted"><span class="mdi mdi-account-check-outline"></span></span>
