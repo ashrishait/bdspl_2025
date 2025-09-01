@@ -239,7 +239,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                     <th class="bg-warning"><b>Send By</b></th>
                                                     <th class="bg-white"><b>Send To </b></th>
                                                     <th class="bg-white"><b>Image </b></th>
-                                                    <th class="bg-white"><b>Remark </b></th>
+                                                    <th class="bg-white"><b>Amount </b></th>
                                                     <th class="bg-white"><b>To Account</b></th>
                                                     <th class="bg-white"><b>Manager Image </b></th>
                                                     <th class="bg-white"><b>Manager Remark </b></th>
@@ -351,7 +351,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                                 <a href="<?php echo base_url('public/vendors/PicUpload/'.$row['Send_Account_Note_Image']);?>" target="_blank"><?php if(!empty($row['Send_Account_Note_Image'])) { ?>link<?php } ?></a>
                                                                 <?php } ?>
                                                             </td>
-                                                            <td><?php echo $row['Send_Note_Account_Remark']; ?></td>
+                                                            <td><?php echo $row['Vendor_Debit_Note_Remark']; ?></td>
                                                             <td>
                                                                 <?php 
                                                                 if(!empty($row['Vendor_Debit_Note_Update'])){ ?>

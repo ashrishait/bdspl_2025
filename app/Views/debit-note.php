@@ -239,7 +239,7 @@ $DepartmentModelObj = new DepartmentModel();
                                                     <th class="bg-warning"><b>Send By</b></th>
                                                     <th class="bg-white"><b>Send To </b></th>
                                                     <th class="bg-white"><b>Image </b></th>
-                                                    <th class="bg-white"><b>Remark </b></th>
+                                                    <th class="bg-white"><b>Amount </b></th>
                                                     <th class="bg-white"><b>Action </b></th>
                                                 </tr>
                                             </thead>
