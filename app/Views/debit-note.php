@@ -123,7 +123,7 @@ $DepartmentModelObj = new DepartmentModel();
                         <div class="col-md-12 col-sm-12 List p-3">
                             <div class="row">
                                 <div class="col-md-10">
-                                    <form method="get" action="<?php echo site_url('/all_erpStystem_list'); ?>" enctype="multipart/form-data"> 
+                                    <form method="get" action="<?php echo site_url('/debit-note'); ?>" enctype="multipart/form-data"> 
                                         <div class="row">
                                             <div class="col-md-3 col-sm-3">
                                                 <select name="Vendor_Id" class="form-control filterserach" id="select-country" data-live-search="true" style="width: 100%;" onchange="submit()"> 
