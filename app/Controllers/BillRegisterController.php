@@ -7913,7 +7913,7 @@ public function CheckUp_RecivedBill()
             $users = $BillRegister->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")
                 ->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')
                 ->where('asitek_bill_register.compeny_id', $company_id)
-                ->where('asitek_bill_register.Mapping_ERP_EmpId', $emp_id)
+                ->where('asitek_bill_register.Send_Note_To', $emp_id)
                 ->where('asitek_bill_register.Send_Note_Status', 1);
     
             if (!empty($Unit_Id)) {
@@ -8154,7 +8154,7 @@ public function CheckUp_RecivedBill()
             $users = $BillRegister->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")
                 ->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')
                 ->where('asitek_bill_register.compeny_id', $company_id)
-                ->where('asitek_bill_register.Mapping_ERP_EmpId', $emp_id)
+                ->where('asitek_bill_register.Send_Note_To_Account_By', $emp_id)
                 ->where('asitek_bill_register.Send_Note_Status', 1)
                 ->where('asitek_bill_register.Send_Note_Account_Status', 1);
     
