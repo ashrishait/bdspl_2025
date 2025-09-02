@@ -7878,7 +7878,7 @@ public function CheckUp_RecivedBill()
         $session_end_date_new = !empty($result['Session_end_Date']) ? $result['Session_end_Date'] : $session_end_date;
     
         // Admin Roll
-        if ($Roll_id == 1||$Roll_id == 2) {
+        if ($Roll_id == 1) {
             $users = $BillRegister->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")
                 ->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')
                 ->where('asitek_bill_register.compeny_id', $company_id)
@@ -8119,7 +8119,7 @@ public function CheckUp_RecivedBill()
         $session_end_date_new = !empty($result['Session_end_Date']) ? $result['Session_end_Date'] : $session_end_date;
     
         // Admin Roll
-        if ($Roll_id == 1||$Roll_id == 2) {
+        if ($Roll_id == 1) {
             $users = $BillRegister->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")
                 ->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')
                 ->where('asitek_bill_register.compeny_id', $company_id)
