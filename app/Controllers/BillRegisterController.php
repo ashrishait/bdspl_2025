@@ -8426,7 +8426,7 @@ public function CheckUp_RecivedBill()
         $excelData = implode("\t", array_values($fields)) . "\n"; 
         // Fetch records from database
         if ($Roll_id == 1) {
-            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')");
+            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where('asitek_bill_register.Send_Note_Status', 1)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')");
   
             if (!empty($Unit_Id)) {
                 $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
@@ -8449,7 +8449,7 @@ public function CheckUp_RecivedBill()
             }
             $data = $users->orderBy('asitek_bill_register.id', 'desc')->findAll();
         } else {
-            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')")->where('asitek_bill_register.Department_Emp_Id', $emp_id);
+            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where('asitek_bill_register.Send_Note_Status', 1)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')")->where('asitek_bill_register.Department_Emp_Id', $emp_id);
   
             if (!empty($Unit_Id)) {
                 $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
@@ -8624,7 +8624,7 @@ public function CheckUp_RecivedBill()
         $excelData = implode("\t", array_values($fields)) . "\n"; 
         // Fetch records from database
         if ($Roll_id == 1) {
-            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')");
+            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where('asitek_bill_register.Send_Note_Status', 1)->where('asitek_bill_register.Send_Note_Account_Status', 1)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')");
   
             if (!empty($Unit_Id)) {
                 $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
@@ -8647,7 +8647,7 @@ public function CheckUp_RecivedBill()
             }
             $data = $users->orderBy('asitek_bill_register.id', 'desc')->findAll();
         } else {
-            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')")->where('asitek_bill_register.Department_Emp_Id', $emp_id);
+            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where('asitek_bill_register.Send_Note_Status', 1)->where('asitek_bill_register.Send_Note_Account_Status', 1)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')")->where('asitek_bill_register.Department_Emp_Id', $emp_id);
   
             if (!empty($Unit_Id)) {
                 $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
@@ -8831,14 +8831,14 @@ public function CheckUp_RecivedBill()
         $date_format = '%Y-%m-%d';
 
         // Excel file name for download 
-        $fileName = "manager_debit_note_list" . date('Y-m-d') . ".xls";     
+        $fileName = "account_debit_note_list" . date('Y-m-d') . ".xls";     
         // Column names 
         $fields = array('Bill Pic', 'Bill Id', 'Vendor', 'Bill No', 'Bill Amount', 'Bill Date', 'Unit Name', 'Gate Entry No', 'Gate Entry Date', 'Send By' ,  'Send To', 'Bill Note Image' ,'Amount' ,'Account Name', 'Manager Upload', 'Manager Amount', 'Account Upload', 'Account Amount', 'Vendor Upload', 'Vendor Remark'); 
         // Display column names as first row 
         $excelData = implode("\t", array_values($fields)) . "\n"; 
         // Fetch records from database
         if ($Roll_id == 1) {
-            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')");
+            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where('asitek_bill_register.Send_Note_Status', 1)->where('asitek_bill_register.Send_Note_Account_Status', 1)->where('asitek_bill_register.Send_Note_Vendor_Status', 1)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')");
   
             if (!empty($Unit_Id)) {
                 $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
@@ -8861,7 +8861,7 @@ public function CheckUp_RecivedBill()
             }
             $data = $users->orderBy('asitek_bill_register.id', 'desc')->findAll();
         } else {
-            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')")->where('asitek_bill_register.Department_Emp_Id', $emp_id);
+            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where('asitek_bill_register.Send_Note_Status', 1)->where('asitek_bill_register.Send_Note_Account_Status', 1)->where('asitek_bill_register.Send_Note_Vendor_Status', 1)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')")->where('asitek_bill_register.Department_Emp_Id', $emp_id);
   
             if (!empty($Unit_Id)) {
                 $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
