@@ -8365,4 +8365,646 @@ public function CheckUp_RecivedBill()
             return redirect("vendor-dashboard");
         }
     }
+
+    public function export_debit_note_list(){
+        $session = \Config\Services::session();
+        $result = $session->get(); 
+        $Roll_id = $session->get("Roll_id");
+        $emp_id = $session->get("emp_id");
+        $compeny_id = $session->get("compeny_id");   
+        $model = new BillRegisterModel();
+        $UnitModelObj = new UnitModel();
+        $RollModelObj = new RollModel();
+        $EmployeeModelObj = new EmployeeModel();
+        $PartyUserModelObj = new PartyUserModel();
+        $DepartmentModelObj = new DepartmentModel();
+        $MasterActionmadelObj = new MasterActionModel();
+        $MasterActionUploadModelObj = new MasterActionUploadModel();
+
+        if ($session->has('Unit_Id')) {
+            $Unit_Id = $result['Unit_Id']; 
+        } else {
+            $Unit_Id = ""; 
+        }
+        if ($session->has('Vendor_Id')) {
+            $Vendor_Id = $result['Vendor_Id']; 
+        } else {
+            $Vendor_Id = ""; 
+        }
+        if ($session->has('assignedto')) {
+            $assignedto = $result['assignedto'];
+        } else {
+            $assignedto = ""; 
+        }
+        if ($session->has('SendBy')) {
+            $SendBy = $result['SendBy']; 
+        } else {
+            $SendBy = ""; 
+        }
+        if ($session->has('Status')) {
+            $Status = $result['Status']; 
+        } else {
+            $Status = ""; 
+        }
+
+
+        // Default start and end date values
+        $defaultStartDate = '2019-05-06';
+        $defaultEndDate = '9019-05-06';
+        
+        // Retrieve session start and end date values
+        $Sesssion_start_Date_New = !empty($session->get('Sesssion_start_Date')) ? $session->get('Sesssion_start_Date') : $defaultStartDate;
+        $Sesssion_end_Date_New = !empty($session->get('Sesssion_end_Date')) ? $session->get('Sesssion_end_Date') : $defaultEndDate;
+        // Date format for SQL query
+        $date_format = '%Y-%m-%d';
+
+        // Excel file name for download 
+        $fileName = "debit_note_list" . date('Y-m-d') . ".xls";     
+        // Column names 
+        $fields = array('Bill Pic', 'Bill Id', 'Vendor', 'Bill No', 'Bill Amount', 'Bill Date', 'Unit Name', 'Gate Entry No', 'Gate Entry Date', 'Send By' ,  'Send To', 'Bill Note Image','Amount'); 
+        // Display column names as first row 
+        $excelData = implode("\t", array_values($fields)) . "\n"; 
+        // Fetch records from database
+        if ($Roll_id == 1) {
+            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')");
+  
+            if (!empty($Unit_Id)) {
+                $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
+            }
+
+            if (!empty($Vendor_Id)) {
+                $users->where('asitek_bill_register.Vendor_Id', $Vendor_Id);
+            }
+
+            if (!empty($assignedto)) {
+                $users->where('asitek_bill_register.Department_Emp_Id', $assignedto);
+            }
+
+            if (!empty($SendBy)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId_By_MasterId', $SendBy);
+            }
+
+            if (!empty($Status) && $Status !== "All") {
+                $users->where('asitek_bill_register.ERP_Status', $Status);
+            }
+            $data = $users->orderBy('asitek_bill_register.id', 'desc')->findAll();
+        } else {
+            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')")->where('asitek_bill_register.Department_Emp_Id', $emp_id);
+  
+            if (!empty($Unit_Id)) {
+                $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
+            }
+
+            if (!empty($Vendor_Id)) {
+                $users->where('asitek_bill_register.Vendor_Id', $Vendor_Id);
+            }
+
+            if (!empty($assignedto)) {
+                $users->where('asitek_bill_register.Department_Emp_Id', $assignedto);
+            }
+
+            if (!empty($SendBy)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId_By_MasterId', $SendBy);
+            }
+
+            if (!empty($Status) && $Status !== "All") {
+                $users->where('asitek_bill_register.ERP_Status', $Status);
+            }
+            $data = $users->orderBy('asitek_bill_register.id', 'desc')->findAll();
+        }   
+        // $data = $model->orderBy('id', 'desc'->findAll(); 
+        $stage_id=4;
+        if(isset($data)){ 
+            // Output each row of the data 
+            foreach($data as $row)
+            { 
+                /*Uid*/
+                if(isset($row['uid'])){ 
+                    $uid = $row['uid'];}else{ $uid = 'NA';
+                }
+                /*Vendor Details*/
+                $Vendorrow= $PartyUserModelObj->where('id',$row['Vendor_Id'])->first();
+                if(isset($Vendorrow) && $Vendorrow!='')
+                {
+                    $VendorName= $Vendorrow['Name']; 
+                }
+                else
+                {
+                    $VendorName=''; 
+                }
+                /*Bill No*/
+                if(isset($row['Bill_No'])){
+                    $Bill_No = $row['Bill_No'];}else{ $Bill_No = 'NA';
+                }
+                /*Bill Amount*/
+                if(isset($row['Bill_Amount'])){
+                    $Bill_Amount = $row['Bill_Amount'];}else{ $Bill_Amount = 'NA';
+                }
+                /*Bill Date Time*/
+                if(isset($row['Bill_DateTime'])){
+                    $Bill_DateTime = date('d/m/Y', strtotime($row['Bill_DateTime']));}else{ $Bill_DateTime = 'NA';
+                }
+                /*Unit Name*/
+                $Unitrow= $UnitModelObj->where('id',$row['Unit_Id'])->first();
+                if(isset($Unitrow) && $Unitrow!='')
+                {
+                    $UnitName =$Unitrow['name']; 
+                }
+                else{
+                    $UnitName='';
+                }
+                /*Gate Entry Number*/
+                if(isset($row['Gate_Entry_No'])){
+                    $Gate_Entry_No = $row['Gate_Entry_No'];}else{ $Gate_Entry_No = 'NA';
+                }
+                /*Gate Entry Date*/
+                if(isset($row['Gate_Entry_Date'])){
+                    $Gate_Entry_Date = date('d/m/Y', strtotime($row['Gate_Entry_Date']));}else{ $Gate_Entry_Date = 'NA';
+                }
+                /*Send By Emloyee Name*/
+                $MappingEmprow= $EmployeeModelObj->where('id',$row['Send_Note_By'])->first();
+                if(isset($MappingEmprow) && $MappingEmprow!='')
+                {
+                    $sendbyemp= $MappingEmprow['first_name'].' '.$MappingEmprow['last_name'];
+                }
+                else{
+                    $sendbyemp=''; 
+                }
+
+                /*Send to Emloyee Name*/
+                $emprow= $EmployeeModelObj->where('id',$row['Send_Note_To'])->first();
+                if(isset($emprow) && $emprow!='')
+                {
+                    $sendtoemp= $emprow['first_name'].' '.$emprow['last_name'];
+                }
+                else{
+                    $sendtoemp=''; 
+                }
+                /*REmark*/
+                if(isset($row['Send_Note_Remark'])){
+                    $sendnoteremark = $row['Send_Note_Remark'];}else{ $sendnoteremark = 'NA';
+                }
+                
+                
+                //*************
+                $lineData = array( 'link', $uid, $VendorName, $Bill_No, $Bill_Amount, $Bill_DateTime, $UnitName, $Gate_Entry_No, $Gate_Entry_Date, $sendbyemp, $sendtoemp, 'link', $sendnoteremark);
+                // array_walk(str_replace('"', '""',(preg_replace("/\r?\n/", "\\n",(preg_replace("/\t/", "\\t", $lineData))))); 
+                $excelData .= implode("\t", array_values($lineData)) . "\n";   
+            } 
+        }
+        else{ 
+            $session->setFlashdata('excel',1);
+        } 
+        // Headers for download 
+        header("Content-Type: application/vnd.ms-excel"); 
+        header("Content-Disposition: attachment; filename=\"$fileName\""); 
+        echo $excelData; 
+        exit;
+    }
+
+
+
+    public function export_debit_note_manager_list(){
+        $session = \Config\Services::session();
+        $result = $session->get(); 
+        $Roll_id = $session->get("Roll_id");
+        $emp_id = $session->get("emp_id");
+        $compeny_id = $session->get("compeny_id");   
+        $model = new BillRegisterModel();
+        $UnitModelObj = new UnitModel();
+        $RollModelObj = new RollModel();
+        $EmployeeModelObj = new EmployeeModel();
+        $PartyUserModelObj = new PartyUserModel();
+        $DepartmentModelObj = new DepartmentModel();
+        $MasterActionmadelObj = new MasterActionModel();
+        $MasterActionUploadModelObj = new MasterActionUploadModel();
+
+        if ($session->has('Unit_Id')) {
+            $Unit_Id = $result['Unit_Id']; 
+        } else {
+            $Unit_Id = ""; 
+        }
+        if ($session->has('Vendor_Id')) {
+            $Vendor_Id = $result['Vendor_Id']; 
+        } else {
+            $Vendor_Id = ""; 
+        }
+        if ($session->has('assignedto')) {
+            $assignedto = $result['assignedto'];
+        } else {
+            $assignedto = ""; 
+        }
+        if ($session->has('SendBy')) {
+            $SendBy = $result['SendBy']; 
+        } else {
+            $SendBy = ""; 
+        }
+        if ($session->has('Status')) {
+            $Status = $result['Status']; 
+        } else {
+            $Status = ""; 
+        }
+
+
+        // Default start and end date values
+        $defaultStartDate = '2019-05-06';
+        $defaultEndDate = '9019-05-06';
+        
+        // Retrieve session start and end date values
+        $Sesssion_start_Date_New = !empty($session->get('Sesssion_start_Date')) ? $session->get('Sesssion_start_Date') : $defaultStartDate;
+        $Sesssion_end_Date_New = !empty($session->get('Sesssion_end_Date')) ? $session->get('Sesssion_end_Date') : $defaultEndDate;
+        // Date format for SQL query
+        $date_format = '%Y-%m-%d';
+
+        // Excel file name for download 
+        $fileName = "manager_debit_note_list" . date('Y-m-d') . ".xls";     
+        // Column names 
+        $fields = array('Bill Pic', 'Bill Id', 'Vendor', 'Bill No', 'Bill Amount', 'Bill Date', 'Unit Name', 'Gate Entry No', 'Gate Entry Date', 'Send By' ,  'Send To', 'Bill Note Image' ,'Amount' ,'Account Name', 'Manager Upload', 'Manager Amount'); 
+        // Display column names as first row 
+        $excelData = implode("\t", array_values($fields)) . "\n"; 
+        // Fetch records from database
+        if ($Roll_id == 1) {
+            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')");
+  
+            if (!empty($Unit_Id)) {
+                $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
+            }
+
+            if (!empty($Vendor_Id)) {
+                $users->where('asitek_bill_register.Vendor_Id', $Vendor_Id);
+            }
+
+            if (!empty($assignedto)) {
+                $users->where('asitek_bill_register.Department_Emp_Id', $assignedto);
+            }
+
+            if (!empty($SendBy)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId_By_MasterId', $SendBy);
+            }
+
+            if (!empty($Status) && $Status !== "All") {
+                $users->where('asitek_bill_register.ERP_Status', $Status);
+            }
+            $data = $users->orderBy('asitek_bill_register.id', 'desc')->findAll();
+        } else {
+            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')")->where('asitek_bill_register.Department_Emp_Id', $emp_id);
+  
+            if (!empty($Unit_Id)) {
+                $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
+            }
+
+            if (!empty($Vendor_Id)) {
+                $users->where('asitek_bill_register.Vendor_Id', $Vendor_Id);
+            }
+
+            if (!empty($assignedto)) {
+                $users->where('asitek_bill_register.Department_Emp_Id', $assignedto);
+            }
+
+            if (!empty($SendBy)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId_By_MasterId', $SendBy);
+            }
+
+            if (!empty($Status) && $Status !== "All") {
+                $users->where('asitek_bill_register.ERP_Status', $Status);
+            }
+            $data = $users->orderBy('asitek_bill_register.id', 'desc')->findAll();
+        }   
+        // $data = $model->orderBy('id', 'desc'->findAll(); 
+        $stage_id=4;
+        if(isset($data)){ 
+            // Output each row of the data 
+            foreach($data as $row)
+            { 
+                /*Uid*/
+                if(isset($row['uid'])){ 
+                    $uid = $row['uid'];}else{ $uid = 'NA';
+                }
+                /*Vendor Details*/
+                $Vendorrow= $PartyUserModelObj->where('id',$row['Vendor_Id'])->first();
+                if(isset($Vendorrow) && $Vendorrow!='')
+                {
+                    $VendorName= $Vendorrow['Name']; 
+                }
+                else
+                {
+                    $VendorName=''; 
+                }
+                /*Bill No*/
+                if(isset($row['Bill_No'])){
+                    $Bill_No = $row['Bill_No'];}else{ $Bill_No = 'NA';
+                }
+                /*Bill Amount*/
+                if(isset($row['Bill_Amount'])){
+                    $Bill_Amount = $row['Bill_Amount'];}else{ $Bill_Amount = 'NA';
+                }
+                /*Bill Date Time*/
+                if(isset($row['Bill_DateTime'])){
+                    $Bill_DateTime = date('d/m/Y', strtotime($row['Bill_DateTime']));}else{ $Bill_DateTime = 'NA';
+                }
+                /*Unit Name*/
+                $Unitrow= $UnitModelObj->where('id',$row['Unit_Id'])->first();
+                if(isset($Unitrow) && $Unitrow!='')
+                {
+                    $UnitName =$Unitrow['name']; 
+                }
+                else{
+                    $UnitName='';
+                }
+                /*Gate Entry Number*/
+                if(isset($row['Gate_Entry_No'])){
+                    $Gate_Entry_No = $row['Gate_Entry_No'];}else{ $Gate_Entry_No = 'NA';
+                }
+                /*Gate Entry Date*/
+                if(isset($row['Gate_Entry_Date'])){
+                    $Gate_Entry_Date = date('d/m/Y', strtotime($row['Gate_Entry_Date']));}else{ $Gate_Entry_Date = 'NA';
+                }
+                /*Send By Emloyee Name*/
+                $MappingEmprow= $EmployeeModelObj->where('id',$row['Send_Note_By'])->first();
+                if(isset($MappingEmprow) && $MappingEmprow!='')
+                {
+                    $sendbyemp= $MappingEmprow['first_name'].' '.$MappingEmprow['last_name'];
+                }
+                else{
+                    $sendbyemp=''; 
+                }
+
+                /*Send to Emloyee Name*/
+                $emprow= $EmployeeModelObj->where('id',$row['Send_Note_To'])->first();
+                if(isset($emprow) && $emprow!='')
+                {
+                    $sendtoemp= $emprow['first_name'].' '.$emprow['last_name'];
+                }
+                else{
+                    $sendtoemp=''; 
+                }
+                /*Debit Amount*/
+                if(isset($row['Send_Note_Remark'])){
+                    $sendnoteremark = $row['Send_Note_Remark'];
+                }
+                else{ 
+                    $sendnoteremark = 'NA';
+                }
+                /*Manage Name*/
+                $managername= $EmployeeModelObj->where('id',$row['Send_Note_To_Account_By'])->first();
+                if(isset($managername) && $managername!='')
+                {
+                    $managerrowname= $managername['first_name'].' '.$managername['last_name'];
+                }
+                else{
+                    $managerrowname=''; 
+                }
+
+                /*Debit Amount*/
+                if(isset($row['Send_Note_Account_Remark'])){
+                    $managerupdatedamount = $row['Send_Note_Account_Remark'];
+                }
+                else{ 
+                    $managerupdatedamount = 'NA';
+                }
+                
+                $lineData = array( 'link', $uid, $VendorName, $Bill_No, $Bill_Amount, $Bill_DateTime, $UnitName, $Gate_Entry_No, $Gate_Entry_Date, $sendbyemp, $sendtoemp, 'link', $sendnoteremark, $managerrowname, 'link', $managerupdatedamount);
+                // array_walk(str_replace('"', '""',(preg_replace("/\r?\n/", "\\n",(preg_replace("/\t/", "\\t", $lineData))))); 
+                $excelData .= implode("\t", array_values($lineData)) . "\n";   
+            } 
+        }
+        else{ 
+            $session->setFlashdata('excel',1);
+        } 
+        // Headers for download 
+        header("Content-Type: application/vnd.ms-excel"); 
+        header("Content-Disposition: attachment; filename=\"$fileName\""); 
+        echo $excelData; 
+        exit;
+    }
+
+    public function export_debit_note_account_list(){
+        $session = \Config\Services::session();
+        $result = $session->get(); 
+        $Roll_id = $session->get("Roll_id");
+        $emp_id = $session->get("emp_id");
+        $compeny_id = $session->get("compeny_id");   
+        $model = new BillRegisterModel();
+        $UnitModelObj = new UnitModel();
+        $RollModelObj = new RollModel();
+        $EmployeeModelObj = new EmployeeModel();
+        $PartyUserModelObj = new PartyUserModel();
+        $DepartmentModelObj = new DepartmentModel();
+        $MasterActionmadelObj = new MasterActionModel();
+        $MasterActionUploadModelObj = new MasterActionUploadModel();
+
+        if ($session->has('Unit_Id')) {
+            $Unit_Id = $result['Unit_Id']; 
+        } else {
+            $Unit_Id = ""; 
+        }
+        if ($session->has('Vendor_Id')) {
+            $Vendor_Id = $result['Vendor_Id']; 
+        } else {
+            $Vendor_Id = ""; 
+        }
+        if ($session->has('assignedto')) {
+            $assignedto = $result['assignedto'];
+        } else {
+            $assignedto = ""; 
+        }
+        if ($session->has('SendBy')) {
+            $SendBy = $result['SendBy']; 
+        } else {
+            $SendBy = ""; 
+        }
+        if ($session->has('Status')) {
+            $Status = $result['Status']; 
+        } else {
+            $Status = ""; 
+        }
+
+
+        // Default start and end date values
+        $defaultStartDate = '2019-05-06';
+        $defaultEndDate = '9019-05-06';
+        
+        // Retrieve session start and end date values
+        $Sesssion_start_Date_New = !empty($session->get('Sesssion_start_Date')) ? $session->get('Sesssion_start_Date') : $defaultStartDate;
+        $Sesssion_end_Date_New = !empty($session->get('Sesssion_end_Date')) ? $session->get('Sesssion_end_Date') : $defaultEndDate;
+        // Date format for SQL query
+        $date_format = '%Y-%m-%d';
+
+        // Excel file name for download 
+        $fileName = "manager_debit_note_list" . date('Y-m-d') . ".xls";     
+        // Column names 
+        $fields = array('Bill Pic', 'Bill Id', 'Vendor', 'Bill No', 'Bill Amount', 'Bill Date', 'Unit Name', 'Gate Entry No', 'Gate Entry Date', 'Send By' ,  'Send To', 'Bill Note Image' ,'Amount' ,'Account Name', 'Manager Upload', 'Manager Amount', 'Account Upload', 'Account Amount', 'Vendor Upload', 'Vendor Remark'); 
+        // Display column names as first row 
+        $excelData = implode("\t", array_values($fields)) . "\n"; 
+        // Fetch records from database
+        if ($Roll_id == 1) {
+            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')");
+  
+            if (!empty($Unit_Id)) {
+                $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
+            }
+
+            if (!empty($Vendor_Id)) {
+                $users->where('asitek_bill_register.Vendor_Id', $Vendor_Id);
+            }
+
+            if (!empty($assignedto)) {
+                $users->where('asitek_bill_register.Department_Emp_Id', $assignedto);
+            }
+
+            if (!empty($SendBy)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId_By_MasterId', $SendBy);
+            }
+
+            if (!empty($Status) && $Status !== "All") {
+                $users->where('asitek_bill_register.ERP_Status', $Status);
+            }
+            $data = $users->orderBy('asitek_bill_register.id', 'desc')->findAll();
+        } else {
+            $users = $model ->select("asitek_bill_register.*, asitek_employee.emp_u_id, asitek_employee.first_name, asitek_employee.last_name")->join('asitek_employee', 'asitek_bill_register.Add_By = asitek_employee.id', 'left')->where('asitek_bill_register.compeny_id', $compeny_id)->where("STR_TO_DATE(Bill_DateTime, '$date_format') BETWEEN STR_TO_DATE('$Sesssion_start_Date_New', '$date_format') AND STR_TO_DATE('$Sesssion_end_Date_New', '$date_format')")->where('asitek_bill_register.Department_Emp_Id', $emp_id);
+  
+            if (!empty($Unit_Id)) {
+                $users->where('asitek_bill_register.Unit_Id', $Unit_Id);
+            }
+
+            if (!empty($Vendor_Id)) {
+                $users->where('asitek_bill_register.Vendor_Id', $Vendor_Id);
+            }
+
+            if (!empty($assignedto)) {
+                $users->where('asitek_bill_register.Department_Emp_Id', $assignedto);
+            }
+
+            if (!empty($SendBy)) {
+                $users->where('asitek_bill_register.Mapping_ERP_EmpId_By_MasterId', $SendBy);
+            }
+
+            if (!empty($Status) && $Status !== "All") {
+                $users->where('asitek_bill_register.ERP_Status', $Status);
+            }
+            $data = $users->orderBy('asitek_bill_register.id', 'desc')->findAll();
+        }   
+        // $data = $model->orderBy('id', 'desc'->findAll(); 
+        $stage_id=4;
+        if(isset($data)){ 
+            // Output each row of the data 
+            foreach($data as $row)
+            { 
+                /*Uid*/
+                if(isset($row['uid'])){ 
+                    $uid = $row['uid'];}else{ $uid = 'NA';
+                }
+                /*Vendor Details*/
+                $Vendorrow= $PartyUserModelObj->where('id',$row['Vendor_Id'])->first();
+                if(isset($Vendorrow) && $Vendorrow!='')
+                {
+                    $VendorName= $Vendorrow['Name']; 
+                }
+                else
+                {
+                    $VendorName=''; 
+                }
+                /*Bill No*/
+                if(isset($row['Bill_No'])){
+                    $Bill_No = $row['Bill_No'];}else{ $Bill_No = 'NA';
+                }
+                /*Bill Amount*/
+                if(isset($row['Bill_Amount'])){
+                    $Bill_Amount = $row['Bill_Amount'];}else{ $Bill_Amount = 'NA';
+                }
+                /*Bill Date Time*/
+                if(isset($row['Bill_DateTime'])){
+                    $Bill_DateTime = date('d/m/Y', strtotime($row['Bill_DateTime']));}else{ $Bill_DateTime = 'NA';
+                }
+                /*Unit Name*/
+                $Unitrow= $UnitModelObj->where('id',$row['Unit_Id'])->first();
+                if(isset($Unitrow) && $Unitrow!='')
+                {
+                    $UnitName =$Unitrow['name']; 
+                }
+                else{
+                    $UnitName='';
+                }
+                /*Gate Entry Number*/
+                if(isset($row['Gate_Entry_No'])){
+                    $Gate_Entry_No = $row['Gate_Entry_No'];}else{ $Gate_Entry_No = 'NA';
+                }
+                /*Gate Entry Date*/
+                if(isset($row['Gate_Entry_Date'])){
+                    $Gate_Entry_Date = date('d/m/Y', strtotime($row['Gate_Entry_Date']));}else{ $Gate_Entry_Date = 'NA';
+                }
+                /*Send By Emloyee Name*/
+                $MappingEmprow= $EmployeeModelObj->where('id',$row['Send_Note_By'])->first();
+                if(isset($MappingEmprow) && $MappingEmprow!='')
+                {
+                    $sendbyemp= $MappingEmprow['first_name'].' '.$MappingEmprow['last_name'];
+                }
+                else{
+                    $sendbyemp=''; 
+                }
+
+                /*Send to Emloyee Name*/
+                $emprow= $EmployeeModelObj->where('id',$row['Send_Note_To'])->first();
+                if(isset($emprow) && $emprow!='')
+                {
+                    $sendtoemp= $emprow['first_name'].' '.$emprow['last_name'];
+                }
+                else{
+                    $sendtoemp=''; 
+                }
+                /*Debit Amount*/
+                if(isset($row['Send_Note_Remark'])){
+                    $sendnoteremark = $row['Send_Note_Remark'];
+                }
+                else{ 
+                    $sendnoteremark = 'NA';
+                }
+                /*Manage Name*/
+                $managername= $EmployeeModelObj->where('id',$row['Send_Note_To_Account_By'])->first();
+                if(isset($managername) && $managername!='')
+                {
+                    $managerrowname= $managername['first_name'].' '.$managername['last_name'];
+                }
+                else{
+                    $managerrowname=''; 
+                }
+
+                /*Debit Amount*/
+                if(isset($row['Send_Note_Account_Remark'])){
+                    $managerupdatedamount = $row['Send_Note_Account_Remark'];
+                }
+                else{ 
+                    $managerupdatedamount = 'NA';
+                }
+
+                /*Account Amount*/
+                if(isset($row['Send_Note_Vendor_Remark'])){
+                    $accountupdatedamount = $row['Send_Note_Vendor_Remark'];
+                }
+                else{ 
+                    $accountupdatedamount = 'NA';
+                }
+
+                /*Vendor Remark*/
+                if(isset($row['Vendor_Debit_Note_Remark'])){
+                    $vendorupdatedremark = $row['Vendor_Debit_Note_Remark'];
+                }
+                else{ 
+                    $vendorupdatedremark = 'NA';
+                }
+                
+                $lineData = array( 'link', $uid, $VendorName, $Bill_No, $Bill_Amount, $Bill_DateTime, $UnitName, $Gate_Entry_No, $Gate_Entry_Date, $sendbyemp, $sendtoemp, 'link', $sendnoteremark, $managerrowname, 'link', $managerupdatedamount, 'link', $accountupdatedamount, 'link', $vendorupdatedremark);
+                // array_walk(str_replace('"', '""',(preg_replace("/\r?\n/", "\\n",(preg_replace("/\t/", "\\t", $lineData))))); 
+                $excelData .= implode("\t", array_values($lineData)) . "\n";   
+            } 
+        }
+        else{ 
+            $session->setFlashdata('excel',1);
+        } 
+        // Headers for download 
+        header("Content-Type: application/vnd.ms-excel"); 
+        header("Content-Disposition: attachment; filename=\"$fileName\""); 
+        echo $excelData; 
+        exit;
+    }
 }

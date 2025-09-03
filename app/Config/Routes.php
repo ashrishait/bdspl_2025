@@ -338,14 +338,17 @@ $routes->get('/all-erpSystem-vendor-list', 'BillRegisterController::all_erpStyst
 $routes->get('/debit-note', 'BillRegisterController::debitnote',['filter'=>'authGuard']); 
 $routes->post('/send-debit-note-to-manager', 'BillRegisterController::debitnotetomanager',['filter'=>'authGuard']); 
 $routes->post('/debit-note-send-to-manager', 'BillRegisterController::debitnotesendtomanager',['filter'=>'authGuard']); 
+$routes->get('/export-debit-note-list', 'BillRegisterController::export_debit_note_list',['filter'=>'authGuard']); 
 
 $routes->get('/debit-note-account', 'BillRegisterController::debitnoteaccount',['filter'=>'authGuard']); 
 $routes->post('/send-debit-note-to-account', 'BillRegisterController::debitnotetoaccount',['filter'=>'authGuard']); 
 $routes->post('/debit-note-to-account', 'BillRegisterController::debitnotesendtoaccount',['filter'=>'authGuard']); 
+$routes->get('/export-debit-note-manager-list', 'BillRegisterController::export_debit_note_manager_list',['filter'=>'authGuard']); 
 
 $routes->get('/debit-note-vendor', 'BillRegisterController::debitnotevendor',['filter'=>'authGuard']); 
 $routes->post('/send-debit-note-to-vendor', 'BillRegisterController::debitnotetovendor',['filter'=>'authGuard']); 
 $routes->post('/debit-note-to-vendor', 'BillRegisterController::debitnotesendtovendor',['filter'=>'authGuard']); 
+$routes->get('/export-debit-note-account-list', 'BillRegisterController::export_debit_note_account_list',['filter'=>'authGuard']); 
 //-----------------------------  Recived Bill Routes------------------------  
 
 

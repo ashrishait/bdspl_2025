@@ -205,6 +205,7 @@ $DepartmentModelObj = new DepartmentModel();
                                        
                                     </div>
                                     <div class="col-md-5">
+                                        <a href="<?php echo base_url('/index.php/export-debit-note-manager-list'); ?>"  class="btn btn-danger float-end btn-lg">Excel Export</a>
                                         <?php
                                         if($ViewOnly==1)
                                         { }
